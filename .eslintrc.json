@@ -6,39 +6,25 @@
   "extends": [
     "standard",
     "next/core-web-vitals",
-    "plugin:@typescript-eslint/recommended",
-    "plugin:react/recommended",
-    "plugin:react-hooks/recommended"
+    "next/typescript",
+    "plugin:jsx-a11y/recommended"
   ],
-  "ignorePatterns": ["/bak/**/*", "/src/components/ui/*", "vite.config.ts"],
-  "overrides": [
-    {
-      "env": {
-        "node": true
-      },
-      "files": [".eslintrc.{js,cjs}"],
-      "parserOptions": {
-        "sourceType": "script"
-      }
-    }
-  ],
+  "ignorePatterns": ["/bak/**/*", "/app/components/ui/*", "vite.config.ts", "backend/**/*"],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
-    "ecmaVersion": "latest",
+    "ecmaVersion": 2021,
     "sourceType": "module",
     "project": "./tsconfig.json",
     "ecmaFeatures": {
       "jsx": true
     }
   },
-  "plugins": [
-    "react",
-    "@typescript-eslint",
-    "react-hooks"      
-  ],
+  "plugins": ["react", "@typescript-eslint"],
   "rules": {
     "react/react-in-jsx-scope": "off",
-    "@typescript-eslint/no-explicit-any": "warn"
+    "@typescript-eslint/no-explicit-any": "warn",
+    "indent": ["error", 2],
+    "react-hooks/exhaustive-deps": "off"
   },
   "settings": {
     "react": {
