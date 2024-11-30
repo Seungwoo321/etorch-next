@@ -24,7 +24,13 @@ import {
   Trash2,
   CheckCircle
 } from 'lucide-react'
-import { useDataQueryStore, useGlobalOptionStore, useYAxisOptionStore, useYAxisSecondaryOptionStore } from '@/store/edit'
+import {
+  useDataQueryStore,
+  useGlobalOptionStore,
+  useXAxisOptionStore,
+  useYAxisOptionStore,
+  useYAxisSecondaryOptionStore
+} from '@/store/edit'
 import { fetchIndicatorValues } from '@/lib/data'
 
 interface QueryOptionCardProps {
@@ -37,22 +43,20 @@ function QueryOptionCard ({ id }: QueryOptionCardProps) {
   const indicators = useDataQueryStore.use.indicators()
   const openPanels = useDataQueryStore.use.openPanels()
   const dataValues = useDataQueryStore.use.dataValues()
-  const dataUnits = useDataQueryStore.use.dataUnits()
-
-  const yAxisUnit = useYAxisOptionStore.use.yAxisUnit()
-  const yAxisSecondaryUnit = useYAxisSecondaryOptionStore.use.yAxisSecondaryUnit()
-  const yAxisSecondaryVisibility = useYAxisSecondaryOptionStore.use.yAxisSecondaryVisibility()
-
+  const setChartData = useDataQueryStore.use.setChartData()
   const openPanel = useDataQueryStore.use.openPanel()
   const closePanel = useDataQueryStore.use.closePanel()
   const removeItem = useDataQueryStore.use.removeItem()
   const removeDataValues = useDataQueryStore.use.removeDataValues()
   const updateItem = useDataQueryStore.use.updateItem()
   const setDataValues = useDataQueryStore.use.setDataValues()
-  const setChartData = useDataQueryStore.use.setChartData()
-  const setDataUnits = useDataQueryStore.use.setDataUnits()
+  const setUnitDataKeyList = useDataQueryStore.use.setUnitDataKeyList()
+  const removeUnitDataKeyList = useDataQueryStore.use.removeUnitDataKeyList()
   const updateYAxisUnit = useYAxisOptionStore.use.updateYAxisUnit()
   const updateYAxisDataKey = useYAxisOptionStore.use.updateYAxisDataKey()
+  const updateXAxisDataKey = useXAxisOptionStore.use.updateXAxisDataKey()
+  const yAxisUnit = useYAxisOptionStore.use.yAxisUnit()
+  const yAxisSecondaryUnit = useYAxisSecondaryOptionStore.use.yAxisSecondaryUnit()
   const items = useDataQueryStore.use.items()
   const panel = items.find(item => item.id === id)
   const isOpen = openPanels.includes(id)
@@ -64,6 +68,7 @@ function QueryOptionCard ({ id }: QueryOptionCardProps) {
     }
   }
   if (!panel) return null
+
   const handleFetchData = async () => {
     const data = await fetchIndicatorValues({
       origin: panel.origin,
@@ -72,19 +77,18 @@ function QueryOptionCard ({ id }: QueryOptionCardProps) {
       timeRagne
     })
     setDataValues(panel.id, data)
-    setDataUnits()
-    if (!dataUnits.length) {
-      console.log('first unit')
-      updateYAxisUnit(panel.unit)
-      updateYAxisDataKey(panel.code)
-    }
-    if (yAxisUnit === '' && yAxisSecondaryUnit === '') {
-      console.log(yAxisUnit, yAxisSecondaryUnit)
-      setChartData()
-    }
-    if (yAxisSecondaryVisibility && (yAxisUnit !== panel.unit || yAxisSecondaryUnit !== panel.unit)) {
-      setChartData()
-    }
+    setUnitDataKeyList(panel.unit, [...Object.keys(data[0]).filter(v => v !== 'value'), panel.code])
+    const selectedItem = items.filter(item => item.unit === yAxisUnit || item.unit === yAxisSecondaryUnit)
+    setChartData(selectedItem)
+  }
+  const handleRemoveItem = () => {
+    removeItem(id)
+    closePanel(id)
+    removeDataValues(id)
+    removeUnitDataKeyList(panel.unit, panel.code)
+    updateXAxisDataKey('')
+    updateYAxisDataKey('')
+    updateYAxisUnit('')
   }
   const handleOriginChange = (origin: string) => updateItem(id, {
     origin,
@@ -121,17 +125,7 @@ function QueryOptionCard ({ id }: QueryOptionCardProps) {
 
           <div className="flex">
             <RefreshCcwIcon className={`mr-2 ${(panel.origin === '') || (panel.code === '') ? 'cursor-not-allowed' : 'cursor-pointer'}`} size={14} onClick={handleFetchData} />
-            <Trash2 className="cursor-pointer" style={{ margin: 0 }} size={14} onClick={() => {
-              removeItem(id)
-              closePanel(id)
-              removeDataValues(id)
-              setChartData()
-              setDataUnits()
-              console.log(dataUnits.length)
-              if (dataUnits.length === 1) {
-                updateYAxisUnit('')
-              }
-            }} />
+            <Trash2 className="cursor-pointer" style={{ margin: 0 }} size={14} onClick={handleRemoveItem} />
           </div>
 
         </div>

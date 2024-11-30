@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 import createSelectors from '../../lib/createSelectors'
 
-export interface XAxisOptionStore {
+type XAxisOptionStoreState = {
   xAxisDataKey: string
   xAxisVisibility: boolean
   xAxisType: 'number' | 'category' | undefined
@@ -13,6 +13,9 @@ export interface XAxisOptionStore {
   xAxisAxisLine: boolean
   xAxisTickLine: boolean
   xAxisColor: string
+}
+
+type XAxisOptionStoreAction = {
   updateXAxisDataKey: (xAxisDataKey: string) => void
   updateXAxisVisibility: (xAxisVisibility: boolean) => void
   updateXAxisType: (xAxisType: 'number' | 'category' | undefined) => void
@@ -26,7 +29,9 @@ export interface XAxisOptionStore {
   updateXAxisColor: (xAxisColor: string) => void
 }
 
-export const useXAxisOptionStoreBase = create<XAxisOptionStore>(set => ({
+export type XAxisOptionStore = XAxisOptionStoreState & XAxisOptionStoreAction
+
+const initialXAxisOptionState: XAxisOptionStoreState = {
   xAxisDataKey: '',
   xAxisVisibility: true,
   xAxisType: 'category',
@@ -37,7 +42,11 @@ export const useXAxisOptionStoreBase = create<XAxisOptionStore>(set => ({
   xAxisDomainMax: 'auto',
   xAxisAxisLine: true,
   xAxisTickLine: true,
-  xAxisColor: 'hsl(var(--muted-foreground))',
+  xAxisColor: 'hsl(var(--muted-foreground))'
+}
+
+export const useXAxisOptionStoreBase = create<XAxisOptionStore>(set => ({
+  ...initialXAxisOptionState,
   updateXAxisDataKey: xAxisDataKey => { set(() => ({ xAxisDataKey })) },
   updateXAxisVisibility: xAxisVisibility => { set(() => ({ xAxisVisibility })) },
   updateXAxisTickCount: xAxisTickCount => { set(() => ({ xAxisTickCount })) },

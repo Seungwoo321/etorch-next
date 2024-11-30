@@ -7,7 +7,7 @@ type DataQueryStoreState = {
   items: QueryOption[]
   indicators: IndicatorValues
   dataValues: Record<string, DataValue[]>
-  dataUnits: string[]
+  unitDataKeyList: Record<string, string[]>
   chartData: DataValue[];
 }
 
@@ -21,26 +21,31 @@ type DataQueryStoreAction = {
   clearPanels: () => void;
   setIndicators: (Indicators: IndicatorValues) => void;
   setDataValues: (id: string, dataValues: DataValue[]) => void;
-  setDataUnits: () => void
-  setChartData: () => void
+  setChartData: (selectedItem: QueryOption, xAxisDataKey: string) => void
+  setUnitDataKeyList: (unit: string, keys: string[]) => void,
+  removeUnitDataKeyList: (unit: string, code: string) => void
 }
 
-type CombineData = Record<string, DataValue>
-const combineData = (items: QueryOption[], dataValues: Record<string, DataValue[]>): DataValue[] => {
-  const combinedData: CombineData = {}
-  items
-    .forEach((panel) => {
-      dataValues[panel.id].forEach(item => {
-        if (!(item.date in combinedData)) {
-          combinedData[item.date] = {
-            date: item.date,
-            [panel.code]: 0
-          }
-        }
-        combinedData[item.date][panel.code] = item.value
-      })
+// type CombineData = Record<string, DataValue>
+const combineData = (item: QueryOption, xAxisDataKey: string, state: DataQueryStoreState): DataValue[] => {
+  const mergedDataMap: Map<string | number, DataValue> = new Map()
+  if (state.chartData.length) {
+    state.chartData.forEach(item => {
+      mergedDataMap.set(item[xAxisDataKey], { ...item })
     })
-  return Object.values(combinedData)
+  }
+
+  const newData = state.dataValues[item.id] ?? []
+  const newKey = item.code
+  newData.forEach(dataValue => {
+    if (!mergedDataMap.has(dataValue[xAxisDataKey])) {
+      mergedDataMap.set(dataValue[xAxisDataKey], {
+        [xAxisDataKey]: dataValue[xAxisDataKey]
+      })
+    }
+    mergedDataMap.get(dataValue[xAxisDataKey])![newKey] = dataValue.value
+  })
+  return Array.from(mergedDataMap.values()).sort((a, b) => (a.date < b.date ? -1 : a.date > b.date ? 1 : 0))
 }
 
 export type DataQueryStore = DataQueryStoreState & DataQueryStoreAction
@@ -54,7 +59,7 @@ const initialDataQueryState: DataQueryStoreState = {
     oecd: []
   },
   dataValues: {},
-  dataUnits: [],
+  unitDataKeyList: {},
   chartData: []
 }
 
@@ -88,34 +93,28 @@ const useDataQueryStoreBase = create<DataQueryStore>()((set) => ({
   setIndicators: (indicators) => set(() => ({
     indicators
   })),
-  setDataUnits: () => set((state) => ({
-    dataUnits: state.items
-      .filter(item => state.dataValues[item.id])
-      .reduce((acc, cur) => {
-        if (!acc.includes(cur.unit)) {
-          acc.push(cur.unit)
-        }
-        return acc
-      }, [] as string[])
-  })),
   setDataValues: (id, dataValues) => set((state) => ({
     dataValues: {
       ...state.dataValues,
       [id]: dataValues
     }
   })),
-  setChartData: () => set((state) => ({
-    chartData: combineData(state.items, state.dataValues)
+  setChartData: (selectedItem, xAxisDataKey = 'date') => set((state) => ({
+    chartData: combineData(selectedItem, xAxisDataKey, state)
+  })),
+  setUnitDataKeyList: (unit, keys) => set((state) => ({
+    unitDataKeyList: {
+      ...state.unitDataKeyList,
+      [unit]: Array.from(new Set([...state.unitDataKeyList[unit] ?? [], ...keys]))
+    }
+  })),
+  removeUnitDataKeyList: (unit, code) => set((state) => ({
+    unitDataKeyList: {
+      ...state.unitDataKeyList,
+      [unit]: Array.from(new Set((state.unitDataKeyList[unit] ?? []).filter(key => key !== code)))
+    }
   }))
 }))
-
-// export const fetchIndicatorsValuesById = async (id: string, get: () => DataQueryStoreState & DataQueryStoreAction) => {
-//   const item = get().items.find((item) => item.id === id)
-//   if (item) {
-//     const dataValues: DataValue[] = await fetchIndicatorValues(item)
-//     get().setDataValues(id, dataValues)
-//   }
-// }
 
 export const useDataQueryStore = createSelectors(useDataQueryStoreBase)
 

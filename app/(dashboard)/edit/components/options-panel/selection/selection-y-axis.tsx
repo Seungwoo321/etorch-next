@@ -9,17 +9,19 @@ import {
 } from '@/components/ui/select'
 import {
   useDataQueryStore,
+  useXAxisOptionStore,
   useYAxisOptionStore,
   useYAxisSecondaryOptionStore
 } from '@/store/edit'
 import FormField from '@/components/shared/form-field'
 
 function SelectionYAxisOption (): JSX.Element {
-  const chartData = useDataQueryStore.use.chartData()
-  const uniqueDataKey = Object.keys(chartData[0] ?? {})
-  const dataUnits = useDataQueryStore.use.dataUnits()
-  const yAxisSecondaryUnit = useYAxisSecondaryOptionStore.use.yAxisSecondaryUnit()
+  const items = useDataQueryStore.use.items()
+  const unitDataKeyList = useDataQueryStore.use.unitDataKeyList()
+  const unitList = Object.keys(unitDataKeyList)
+  const xAxisDataKey = useXAxisOptionStore.use.xAxisDataKey()
   const yAxisUnit = useYAxisOptionStore.use.yAxisUnit()
+  const yAxisSecondaryUnit = useYAxisSecondaryOptionStore.use.yAxisSecondaryUnit()
   const yAxisDataKey = useYAxisOptionStore.use.yAxisDataKey()
   const yAxisVisibility = useYAxisOptionStore.use.yAxisVisibility()
   const yAxisType = useYAxisOptionStore.use.yAxisType()
@@ -31,8 +33,6 @@ function SelectionYAxisOption (): JSX.Element {
   const yAxisTickLine = useYAxisOptionStore.use.yAxisTickLine()
   const updateYAxisUnit = useYAxisOptionStore.use.updateYAxisUnit()
   const updateYAxisDataKey = useYAxisOptionStore.use.updateYAxisDataKey()
-  const updateYAxisSecondaryUnit = useYAxisSecondaryOptionStore.use.updateYAxisSecondaryUnit()
-  const updateYAxisSecondaryDataKey = useYAxisSecondaryOptionStore.use.updateYAxisSecondaryDataKey()
   const updateYAxisVisibility = useYAxisOptionStore.use.updateYAxisVisibility()
   const updateYAxisType = useYAxisOptionStore.use.updateYAxisType()
   const updateYAxisDomainMin = useYAxisOptionStore.use.updateYAxisDomainMin()
@@ -41,37 +41,35 @@ function SelectionYAxisOption (): JSX.Element {
   const updateYAxisTickCount = useYAxisOptionStore.use.updateYAxisTickCount()
   const updateYAxisTickSize = useYAxisOptionStore.use.updateYAxisTickSize()
   const updateYAxisTickLine = useYAxisOptionStore.use.updateYAxisTickLine()
-
+  const setChartData = useDataQueryStore.use.setChartData()
   return (
     <div className="space-y-2 pl-2 pr-1">
       <FormField htmlFor="y-axis-visibility" label="Visibility">
         <Switch
           id="y-axis-visibility"
           checked={yAxisVisibility}
-          onCheckedChange={updateYAxisVisibility}
+          onCheckedChange={(value) => {
+            if (!value) {
+              updateYAxisUnit('')
+              updateYAxisDataKey('')
+            }
+            updateYAxisVisibility(value)
+          }}
         />
       </FormField>
       <FormField htmlFor="y-axis-unit" label="Unit">
         <div className="flex gap-1.5">
           <Select
-            onValueChange={(value) => {
-              if (value === yAxisSecondaryUnit) {
-                updateYAxisSecondaryUnit('')
-                updateYAxisSecondaryDataKey('')
-              }
-              updateYAxisUnit(value)
-            }}
+            onValueChange={updateYAxisUnit}
             value={yAxisUnit}
           >
             <SelectTrigger id="y-axis-unit">
-              <SelectValue
-                placeholder="Not selectable"
-              >
+              <SelectValue placeholder="Not selectable">
                 {yAxisUnit}
               </SelectValue>
             </SelectTrigger>
             <SelectContent>
-              {dataUnits.map(unit => (
+              {unitList.map(unit => (
                 <SelectItem
                   key={unit}
                   value={unit}>
@@ -86,21 +84,26 @@ function SelectionYAxisOption (): JSX.Element {
       <FormField htmlFor="y-axis-data-key" label="Data key">
         <div className="flex gap-1.5">
           <Select
-            onValueChange={updateYAxisDataKey}
+            onValueChange={(value) => {
+              const selectedItem = items.find(item => item.unit === yAxisUnit || item.unit === yAxisSecondaryUnit)
+              if (selectedItem) {
+                setChartData(selectedItem, xAxisDataKey)
+              }
+              updateYAxisDataKey(value)
+            }}
             value={yAxisDataKey}
           >
             <SelectTrigger id="y-axis-data-key">
-              <SelectValue
-                placeholder="Not selectable"
-              >
+              <SelectValue placeholder="Not selectable">
                 {yAxisDataKey}
               </SelectValue>
             </SelectTrigger>
             <SelectContent>
-              {uniqueDataKey.map(key => (
+              {yAxisUnit && unitDataKeyList[yAxisUnit].map(key => (
                 <SelectItem
                   key={key}
-                  value={key}>
+                  value={key}
+                >
                   {key}
                 </SelectItem>
               ))}

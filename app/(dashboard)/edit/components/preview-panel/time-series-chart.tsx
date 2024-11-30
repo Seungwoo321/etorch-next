@@ -22,6 +22,7 @@ import {
   useYAxisOptionStore,
   useYAxisSecondaryOptionStore
 } from '@/store/edit'
+import { TriangleAlert } from 'lucide-react'
 
 function TimeSeriesChart (): JSX.Element {
   const chartData = useDataQueryStore.use.chartData()
@@ -75,12 +76,20 @@ function TimeSeriesChart (): JSX.Element {
   const yAxisSecondaryColor = useYAxisSecondaryOptionStore.use.yAxisSecondaryColor()
 
   const panelsData = useDataQueryStore.use.items().filter(item => dataValues[item.id])
-  // const panelsData = useDataOptionStore(selectPanelsData)
+
+  const filteredPanelsData = panelsData.filter(item => (item.unit === yAxisUnit && item.code === yAxisDataKey) || (item.unit === yAxisSecondaryUnit && item.code === yAxisSecondaryDataKey))
 
   if (panelsData.length === 0) {
     return (
-      <div className="flex items-center h-full m-auto">
-        No data
+      <div className="flex items-center h-full m-auto gap-2">
+        <TriangleAlert /> No data
+      </div>
+    )
+  }
+  if (!xAxisDataKey || (!(yAxisDataKey && yAxisUnit) && !(yAxisSecondaryDataKey && yAxisSecondaryUnit))) {
+    return (
+      <div className="flex items-center h-full m-auto gap-2">
+        <TriangleAlert /> Please check the X and Y axis settings.
       </div>
     )
   }
@@ -144,7 +153,7 @@ function TimeSeriesChart (): JSX.Element {
           yAxisId={2}
           orientation="right"
         />
-        {panelsData.map((panel) => (
+        {filteredPanelsData.map((panel) => (
           <Line
             key={`line-${panel.code}`}
             type="monotone"

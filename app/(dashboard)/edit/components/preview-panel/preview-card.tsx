@@ -1,5 +1,5 @@
 'use client'
-import { useDataQueryStore, usePanelOptionStore } from '@/store/edit'
+import { usePanelOptionStore } from '@/store/edit'
 import {
   Card,
   CardContent
@@ -8,9 +8,7 @@ import PreviewCardHeader from './preview-card-header'
 import TimeSeriesLineChart from './time-series-chart'
 
 function PreviewCard () {
-  const chartData = useDataQueryStore.use.chartData()
   const isTransparentBackground = usePanelOptionStore.use.isTransparentBackground()
-  console.log(chartData)
   return (
     <Card className={`flex flex-col h-[calc(100%-2.5rem)] ${isTransparentBackground ? '' : 'bg-primary-foreground'}`}>
       <PreviewCardHeader />

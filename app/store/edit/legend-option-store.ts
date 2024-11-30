@@ -3,22 +3,31 @@ import { type LayoutType } from 'recharts/types/util/types'
 import { create } from 'zustand'
 import createSelectors from '../../lib/createSelectors'
 
-export interface LegendOptionStore {
+type LegendOptionStoreState = {
   legendVisibility: boolean
   legendLayout: LayoutType
   legendAlign: HorizontalAlignmentType
   legendVerticalAlign: VerticalAlignmentType
+}
+
+type LegendOptionStoreAction = {
   updateLegendVisibility: (visibility: boolean) => void
   updateLegendLayout: (layout: LayoutType) => void
   updateLegendAlign: (align: HorizontalAlignmentType) => void
   updateLegendVerticalAlign: (verticalAlign: VerticalAlignmentType) => void
 }
 
-export const useLegendOptionStoreBase = create<LegendOptionStore>(set => ({
+export type LegendOptionStore = LegendOptionStoreState & LegendOptionStoreAction
+
+const initialLegendOptionState: LegendOptionStoreState = {
   legendVisibility: true,
   legendLayout: 'horizontal',
   legendAlign: 'left',
-  legendVerticalAlign: 'bottom',
+  legendVerticalAlign: 'bottom'
+}
+
+export const useLegendOptionStoreBase = create<LegendOptionStore>(set => ({
+  ...initialLegendOptionState,
   updateLegendVisibility: (legendVisibility) => { set(() => ({ legendVisibility })) },
   updateLegendLayout: (legendLayout) => { set(() => ({ legendLayout })) },
   updateLegendAlign: (legendAlign) => { set(() => ({ legendAlign })) },

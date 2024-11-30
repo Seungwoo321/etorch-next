@@ -11,9 +11,11 @@ import { useDataQueryStore, useXAxisOptionStore } from '@/store/edit'
 import FormField from '@/components/shared/form-field'
 
 function SelectionXAxis (): JSX.Element {
-  const dataUnits = useDataQueryStore.use.dataUnits()
-  const chartData = useDataQueryStore.use.chartData()
-  const uniqueDataKey = Object.keys(chartData[0] ?? {})
+  const unitDataKeyList = useDataQueryStore.use.unitDataKeyList()
+  const uniqueDataKey = Object.values(unitDataKeyList).reduce((acc, cur) => {
+    cur.forEach(v => !acc.includes(v) && acc.push(v))
+    return acc
+  }, [])
   const xAxisDataKey = useXAxisOptionStore.use.xAxisDataKey()
   const xAxisVisibility = useXAxisOptionStore.use.xAxisVisibility()
   const xAxisType = useXAxisOptionStore.use.xAxisType()

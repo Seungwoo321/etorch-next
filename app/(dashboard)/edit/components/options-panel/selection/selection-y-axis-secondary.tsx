@@ -9,17 +9,16 @@ import {
 } from '@/components/ui/select'
 import {
   useDataQueryStore,
-  useYAxisOptionStore,
+  useXAxisOptionStore,
   useYAxisSecondaryOptionStore
 } from '@/store/edit'
 import FormField from '@/components/shared/form-field'
 
 function SelectionYAxisSecondaryOption (): JSX.Element {
-  const panelItems = useDataQueryStore.use.items()
-  const chartData = useDataQueryStore.use.chartData()
-  const uniqueDataKey = Object.keys(chartData[0] ?? {})
-  const dataUnits = useDataQueryStore.use.dataUnits()
-  const yAxisUnit = useYAxisOptionStore.use.yAxisUnit()
+  const items = useDataQueryStore.use.items()
+  const unitDataKeyList = useDataQueryStore.use.unitDataKeyList()
+  const unitList = Object.keys(unitDataKeyList)
+  const xAxisDataKey = useXAxisOptionStore.use.xAxisDataKey()
   const yAxisSecondaryUnit = useYAxisSecondaryOptionStore.use.yAxisSecondaryUnit()
   const yAxisSecondaryDataKey = useYAxisSecondaryOptionStore.use.yAxisSecondaryDataKey()
   const yAxisSecondaryVisibility = useYAxisSecondaryOptionStore.use.yAxisSecondaryVisibility()
@@ -40,7 +39,7 @@ function SelectionYAxisSecondaryOption (): JSX.Element {
   const updateYAxisSecondaryTickCount = useYAxisSecondaryOptionStore.use.updateYAxisSecondaryTickCount()
   const updateYAxisSecondaryTickSize = useYAxisSecondaryOptionStore.use.updateYAxisSecondaryTickSize()
   const updateYAxisSecondaryTickLine = useYAxisSecondaryOptionStore.use.updateYAxisSecondaryTickLine()
-
+  const setChartData = useDataQueryStore.use.setChartData()
   return (
     <div className="space-y-2 pl-2 pr-1">
       <FormField htmlFor="y-axis-secondary-visibility" label="Visibility">
@@ -60,23 +59,17 @@ function SelectionYAxisSecondaryOption (): JSX.Element {
         <FormField htmlFor="y-secondary-axis-unit" label="Unit">
           <div className="flex gap-1.5">
             <Select
-              onValueChange={(value) => {
-                if (panelItems.length) {
-                  updateYAxisSecondaryUnit(value)
-                  updateYAxisSecondaryDataKey(panelItems.find(item => item.unit === value)?.code ?? '')
-                }
-              }}
+              onValueChange={updateYAxisSecondaryUnit}
               value={yAxisSecondaryUnit}
             >
               <SelectTrigger id="y-secondary-axis-unit">
-                <SelectValue>
-                  {yAxisSecondaryUnit === '' ? 'Not selectable' : yAxisSecondaryUnit}
+                <SelectValue placeholder="Not selectable">
+                  {yAxisSecondaryUnit}
                 </SelectValue>
               </SelectTrigger>
               <SelectContent>
-                {panelUnits.map(unit => (
+                {unitList.map(unit => (
                   <SelectItem
-                    disabled={unit === yAxisUnit}
                     key={unit}
                     value={unit}>
                     {unit}
@@ -90,21 +83,28 @@ function SelectionYAxisSecondaryOption (): JSX.Element {
         <FormField htmlFor="y-axis-secondary-data-key" label="Data key">
           <div className="flex gap-1.5">
             <Select
-              onValueChange={updateYAxisSecondaryDataKey}
+              onValueChange={(value) => {
+                const selectedItem = items.find(item => item.code === value)
+                if (selectedItem) {
+                  setChartData(selectedItem, xAxisDataKey)
+                }
+
+                updateYAxisSecondaryDataKey(value)
+              }}
               value={yAxisSecondaryDataKey}
             >
               <SelectTrigger id="y-axis-secondary-data-key">
-                <SelectValue>
-                  {yAxisSecondaryDataKey === '' ? 'Not selectable' : yAxisSecondaryDataKey}
+                <SelectValue placeholder="Not selectable">
+                  {yAxisSecondaryDataKey}
                 </SelectValue>
               </SelectTrigger>
               <SelectContent>
-                {yAxisSecondaryUnit && panelDataMapByUnit[yAxisSecondaryUnit]?.map(panel => (
+                {yAxisSecondaryUnit && unitDataKeyList[yAxisSecondaryUnit].map(key => (
                   <SelectItem
-                    key={panel.id}
-                    value={panel.indicatorCode}
+                    key={key}
+                    value={key}
                   >
-                    {panel.indicatorCode}
+                    {key}
                   </SelectItem>
                 ))}
               </SelectContent>

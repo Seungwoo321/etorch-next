@@ -13,7 +13,6 @@ type YAxisOptionStoreState = {
   yAxisAxisLine: boolean
   yAxisTickLine: boolean
   yAxisColor: string
-
 }
 
 type YAxisOptionStoreAction = {
@@ -32,7 +31,7 @@ type YAxisOptionStoreAction = {
 
 export type YAxisOptionStore = YAxisOptionStoreState & YAxisOptionStoreAction
 
-export const useYAxisOptionStoreBase = create<YAxisOptionStore>(set => ({
+const initialYAxisOptionState: YAxisOptionStoreState = {
   yAxisUnit: '',
   yAxisDataKey: '',
   yAxisVisibility: true,
@@ -43,7 +42,11 @@ export const useYAxisOptionStoreBase = create<YAxisOptionStore>(set => ({
   yAxisDomainMax: 'auto',
   yAxisAxisLine: true,
   yAxisTickLine: true,
-  yAxisColor: 'hsl(var(--muted-foreground))',
+  yAxisColor: 'hsl(var(--muted-foreground))'
+}
+
+export const useYAxisOptionStoreBase = create<YAxisOptionStore>(set => ({
+  ...initialYAxisOptionState,
   updateYAxisUnit: yAxisUnit => { set(() => ({ yAxisUnit })) },
   updateYAxisDataKey: yAxisDataKey => { set(() => ({ yAxisDataKey })) },
   updateYAxisVisibility: yAxisVisibility => { set(() => ({ yAxisVisibility })) },

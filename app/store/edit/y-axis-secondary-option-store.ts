@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 import createSelectors from '../../lib/createSelectors'
 
-export interface YAxisSecondaryOptionStore {
+type YAxisSecondaryOptionStoreState = {
   yAxisSecondaryUnit: string
   yAxisSecondaryDataKey: string
   yAxisSecondaryVisibility: boolean
@@ -13,6 +13,9 @@ export interface YAxisSecondaryOptionStore {
   yAxisSecondaryAxisLine: boolean
   yAxisSecondaryTickLine: boolean
   yAxisSecondaryColor: string
+}
+
+type YAxisSecondaryOptionStoreAction = {
   updateYAxisSecondaryUnit: (yAxisUnit: string) => void
   updateYAxisSecondaryDataKey: (yAxisDataKey: string) => void
   updateYAxisSecondaryVisibility: (yAxisVisibility: boolean) => void
@@ -26,7 +29,9 @@ export interface YAxisSecondaryOptionStore {
   updateYAxisSecondaryColor: (yAxisColor: string) => void
 }
 
-export const useYAxisSecondaryOptionStoreBase = create<YAxisSecondaryOptionStore>(set => ({
+export type YAxisSecondaryOptionStore = YAxisSecondaryOptionStoreState & YAxisSecondaryOptionStoreAction
+
+const initialYAxisSecondaryOptionState: YAxisSecondaryOptionStoreState = {
   yAxisSecondaryUnit: '',
   yAxisSecondaryDataKey: '',
   yAxisSecondaryVisibility: false,
@@ -37,7 +42,11 @@ export const useYAxisSecondaryOptionStoreBase = create<YAxisSecondaryOptionStore
   yAxisSecondaryDomainMax: 'auto',
   yAxisSecondaryAxisLine: true,
   yAxisSecondaryTickLine: true,
-  yAxisSecondaryColor: 'hsl(var(--muted-foreground))',
+  yAxisSecondaryColor: 'hsl(var(--muted-foreground))'
+}
+
+export const useYAxisSecondaryOptionStoreBase = create<YAxisSecondaryOptionStore>(set => ({
+  ...initialYAxisSecondaryOptionState,
   updateYAxisSecondaryUnit: yAxisSecondaryUnit => { set(() => ({ yAxisSecondaryUnit })) },
   updateYAxisSecondaryDataKey: yAxisSecondaryDataKey => { set(() => ({ yAxisSecondaryDataKey })) },
   updateYAxisSecondaryVisibility: yAxisSecondaryVisibility => { set(() => ({ yAxisSecondaryVisibility })) },
