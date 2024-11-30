@@ -27,7 +27,7 @@ type DataQueryStoreAction = {
 }
 
 // type CombineData = Record<string, DataValue>
-const combineData = (item: QueryOption, xAxisDataKey: string, state: DataQueryStoreState): DataValue[] => {
+const combineData = (item: QueryOption, xAxisDataKey: string = 'date', state: DataQueryStoreState): DataValue[] => {
   const mergedDataMap: Map<string | number, DataValue> = new Map()
   if (state.chartData.length) {
     state.chartData.forEach(item => {
@@ -36,8 +36,12 @@ const combineData = (item: QueryOption, xAxisDataKey: string, state: DataQuerySt
   }
 
   const newData = state.dataValues[item.id] ?? []
+  console.log('newData', newData)
+  console.log('xAxisDataKey', xAxisDataKey)
+
   const newKey = item.code
   newData.forEach(dataValue => {
+    console.log(dataValue[xAxisDataKey])
     if (!mergedDataMap.has(dataValue[xAxisDataKey])) {
       mergedDataMap.set(dataValue[xAxisDataKey], {
         [xAxisDataKey]: dataValue[xAxisDataKey]
@@ -99,8 +103,8 @@ const useDataQueryStoreBase = create<DataQueryStore>()((set) => ({
       [id]: dataValues
     }
   })),
-  setChartData: (selectedItem, xAxisDataKey = 'date') => set((state) => ({
-    chartData: combineData(selectedItem, xAxisDataKey, state)
+  setChartData: (selectedItem, xAxisDataKey) => set((state) => ({
+    chartData: combineData(selectedItem, xAxisDataKey === '' ? 'date' : xAxisDataKey, state)
   })),
   setUnitDataKeyList: (unit, keys) => set((state) => ({
     unitDataKeyList: {

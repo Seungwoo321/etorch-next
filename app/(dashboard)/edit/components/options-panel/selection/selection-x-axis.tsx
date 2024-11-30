@@ -42,7 +42,12 @@ function SelectionXAxis (): JSX.Element {
         <Switch
           id="x-axis-visibility"
           checked={xAxisVisibility}
-          onCheckedChange={updateXAxisVisibility}
+          onCheckedChange={(value) => {
+            if (!value) {
+              updateXAxisDataKey('')
+            }
+            updateXAxisVisibility(value)
+          }}
         />
       </FormField>
 

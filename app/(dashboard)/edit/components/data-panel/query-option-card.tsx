@@ -28,8 +28,7 @@ import {
   useDataQueryStore,
   useGlobalOptionStore,
   useXAxisOptionStore,
-  useYAxisOptionStore,
-  useYAxisSecondaryOptionStore
+  useYAxisOptionStore
 } from '@/store/edit'
 import { fetchIndicatorValues } from '@/lib/data'
 
@@ -43,7 +42,6 @@ function QueryOptionCard ({ id }: QueryOptionCardProps) {
   const indicators = useDataQueryStore.use.indicators()
   const openPanels = useDataQueryStore.use.openPanels()
   const dataValues = useDataQueryStore.use.dataValues()
-  const setChartData = useDataQueryStore.use.setChartData()
   const openPanel = useDataQueryStore.use.openPanel()
   const closePanel = useDataQueryStore.use.closePanel()
   const removeItem = useDataQueryStore.use.removeItem()
@@ -55,8 +53,6 @@ function QueryOptionCard ({ id }: QueryOptionCardProps) {
   const updateYAxisUnit = useYAxisOptionStore.use.updateYAxisUnit()
   const updateYAxisDataKey = useYAxisOptionStore.use.updateYAxisDataKey()
   const updateXAxisDataKey = useXAxisOptionStore.use.updateXAxisDataKey()
-  const yAxisUnit = useYAxisOptionStore.use.yAxisUnit()
-  const yAxisSecondaryUnit = useYAxisSecondaryOptionStore.use.yAxisSecondaryUnit()
   const items = useDataQueryStore.use.items()
   const panel = items.find(item => item.id === id)
   const isOpen = openPanels.includes(id)
@@ -78,8 +74,6 @@ function QueryOptionCard ({ id }: QueryOptionCardProps) {
     })
     setDataValues(panel.id, data)
     setUnitDataKeyList(panel.unit, [...Object.keys(data[0]).filter(v => v !== 'value'), panel.code])
-    const selectedItem = items.filter(item => item.unit === yAxisUnit || item.unit === yAxisSecondaryUnit)
-    setChartData(selectedItem)
   }
   const handleRemoveItem = () => {
     removeItem(id)

@@ -28,9 +28,7 @@ function OptionsPanel (): JSX.Element {
 
             <Accordion className="w-full" type="single" collapsible>
               <AccordionItem value="panel-options">
-                <AccordionTrigger>
-                  <span>Panel options</span>
-                </AccordionTrigger>
+                <AccordionTrigger>Panel options</AccordionTrigger>
                 <AccordionContent>
                   <SelectionPanel />
                 </AccordionContent>
@@ -60,14 +58,18 @@ function OptionsPanel (): JSX.Element {
               <AccordionItem value="y-axis">
                 <AccordionTrigger>Y-Axis</AccordionTrigger>
                 <AccordionContent>
-                  <SelectionYAxis />
+                  <ScrollArea className="h-[300px] rounded-xl">
+                    <SelectionYAxis />
+                  </ScrollArea>
                 </AccordionContent>
               </AccordionItem>
 
               <AccordionItem value="y-axis-scondary">
                 <AccordionTrigger>Y-Axis (Scondary)</AccordionTrigger>
                 <AccordionContent>
-                  <SelectionYAxisSecondary />
+                  <ScrollArea className="h-[300px] rounded-xl">
+                    <SelectionYAxisSecondary />
+                  </ScrollArea>
                 </AccordionContent>
               </AccordionItem>
 
