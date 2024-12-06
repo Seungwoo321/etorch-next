@@ -31,16 +31,19 @@ import {
   useYAxisOptionStore
 } from '@/store/edit'
 import { fetchIndicatorValues } from '@/lib/data'
+import { memo, useState } from 'react'
+import { QueryOption } from '@/lib/definitions'
 
 interface QueryOptionCardProps {
   id: string
+  open: boolean
+  option: QueryOption
 }
 
-function QueryOptionCard ({ id }: QueryOptionCardProps) {
+function QueryOptionCard({ id, open, option }: QueryOptionCardProps) {
   const frequency = useGlobalOptionStore.use.frequency()
   const timeRagne = useGlobalOptionStore.use.timeRagne()
   const indicators = useDataQueryStore.use.indicators()
-  const openPanels = useDataQueryStore.use.openPanels()
   const dataValues = useDataQueryStore.use.dataValues()
   const openPanel = useDataQueryStore.use.openPanel()
   const closePanel = useDataQueryStore.use.closePanel()
@@ -53,33 +56,31 @@ function QueryOptionCard ({ id }: QueryOptionCardProps) {
   const updateYAxisUnit = useYAxisOptionStore.use.updateYAxisUnit()
   const updateYAxisDataKey = useYAxisOptionStore.use.updateYAxisDataKey()
   const updateXAxisDataKey = useXAxisOptionStore.use.updateXAxisDataKey()
-  const items = useDataQueryStore.use.items()
-  const panel = items.find(item => item.id === id)
-  const isOpen = openPanels.includes(id)
-  const handleCollapsibleChange = () => {
-    if (isOpen) {
-      closePanel(id)
-    } else {
+
+  const handleCollapsibleChange = (value: boolean) => {
+    if (value) {
       openPanel(id)
+    } else {
+      closePanel(id)
     }
   }
-  if (!panel) return null
+  if (!option.id) return null
 
   const handleFetchData = async () => {
     const data = await fetchIndicatorValues({
-      origin: panel.origin,
-      code: panel.code,
+      origin: option.origin,
+      code: option.code,
       frequency,
       timeRagne
     })
-    setDataValues(panel.id, data)
-    setUnitDataKeyList(panel.unit, [...Object.keys(data[0]).filter(v => v !== 'value'), panel.code])
+    setDataValues(option.id, data)
+    setUnitDataKeyList(option.unit, [...Object.keys(data[0]).filter(v => v !== 'value'), option.code])
   }
   const handleRemoveItem = () => {
     removeItem(id)
     closePanel(id)
-    removeDataValues(id)
-    removeUnitDataKeyList(panel.unit, panel.code)
+    // removeDataValues(id)
+    removeUnitDataKeyList(option.unit, option.code)
     updateXAxisDataKey('')
     updateYAxisDataKey('')
     updateYAxisUnit('')
@@ -90,7 +91,7 @@ function QueryOptionCard ({ id }: QueryOptionCardProps) {
     unit: ''
   })
   const handleCodeChange = (code: string) => {
-    const selectedIndicator = indicators[panel.origin as 'kosis' | 'ecos' | 'oecd']?.find(indicator => indicator.code === code)
+    const selectedIndicator = indicators[option.origin as 'kosis' | 'ecos' | 'oecd']?.find(indicator => indicator.code === code)
     updateItem(id, {
       code,
       unit: selectedIndicator?.unit_en
@@ -98,7 +99,7 @@ function QueryOptionCard ({ id }: QueryOptionCardProps) {
   }
   return (
     <Collapsible
-      open={isOpen}
+      open={open}
       onOpenChange={handleCollapsibleChange}
     >
       <Card className="h-full m-2">
@@ -111,14 +112,14 @@ function QueryOptionCard ({ id }: QueryOptionCardProps) {
                 <ChevronRightIcon className="cursor-pointer transition-transform duration-200" />
               </div>
             </CollapsibleTrigger>
-            {panel?.origin.length > 0
-              ? `${panel?.origin}:${panel.code}:${panel.unit}:${frequency}`
+            {option?.origin.length > 0
+              ? `${option?.origin}:${option.code}:${option.unit}:${frequency}`
               : null
             }
           </CardTitle>
 
           <div className="flex">
-            <RefreshCcwIcon className={`mr-2 ${(panel.origin === '') || (panel.code === '') ? 'cursor-not-allowed' : 'cursor-pointer'}`} size={14} onClick={handleFetchData} />
+            <RefreshCcwIcon className={`mr-2 ${(option.origin === '') || (option.code === '') ? 'cursor-not-allowed' : 'cursor-pointer'}`} size={14} onClick={handleFetchData} />
             <Trash2 className="cursor-pointer" style={{ margin: 0 }} size={14} onClick={handleRemoveItem} />
           </div>
 
@@ -134,8 +135,8 @@ function QueryOptionCard ({ id }: QueryOptionCardProps) {
                       Data source
                     </Label>
                     <Select
-                      defaultValue={panel.origin}
-                      value={panel.origin}
+                      defaultValue={option.origin}
+                      value={option.origin}
                       onValueChange={handleOriginChange}
                     >
                       <SelectTrigger id="data-source">
@@ -153,16 +154,16 @@ function QueryOptionCard ({ id }: QueryOptionCardProps) {
                       Indicator
                     </Label>
                     <Select
-                      defaultValue={panel.code}
-                      value={panel.code}
+                      defaultValue={option.code}
+                      value={option.code}
                       onValueChange={handleCodeChange}
-                      disabled={panel.origin === ''}
+                      disabled={option.origin === ''}
                     >
                       <SelectTrigger id="data-code">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        {indicators[panel.origin as 'kosis' | 'ecos' | 'oecd']?.map(indicator => (
+                        {indicators[option.origin as 'kosis' | 'ecos' | 'oecd']?.map(indicator => (
                           <SelectItem
                             key={indicator.code}
                             value={indicator.code}
@@ -175,9 +176,9 @@ function QueryOptionCard ({ id }: QueryOptionCardProps) {
                   </div>
                   <div className="flex items-end">
                     <Button
-                      variant={dataValues[panel.id] ? 'default' : 'outline'}
+                      variant={dataValues[option.id] ? 'default' : 'outline'}
                       onClick={handleFetchData}
-                      disabled={(panel.origin === '') || (panel.code === '')}
+                      disabled={(option.origin === '') || (option.code === '')}
                     >
                       <CheckCircle />
                     </Button>
@@ -192,4 +193,4 @@ function QueryOptionCard ({ id }: QueryOptionCardProps) {
   )
 }
 
-export default QueryOptionCard
+export default memo(QueryOptionCard)
