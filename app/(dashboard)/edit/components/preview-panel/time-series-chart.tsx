@@ -75,24 +75,24 @@ function TimeSeriesChart (): JSX.Element {
   const yAxisSecondaryTickLine = useYAxisSecondaryOptionStore.use.yAxisSecondaryTickLine()
   const yAxisSecondaryColor = useYAxisSecondaryOptionStore.use.yAxisSecondaryColor()
 
-  const panelsData = useDataQueryStore.use.items().filter(item => dataValues[item.id])
+  // const panelsData = useDataQueryStore.use.items().filter(item => dataValues[item.id])
 
-  const filteredPanelsData = panelsData.filter(item => (item.unit === yAxisUnit && item.code === yAxisDataKey) || (item.unit === yAxisSecondaryUnit && item.code === yAxisSecondaryDataKey))
+  // const filteredPanelsData = panelsData.filter(item => (item.unit === yAxisUnit && item.code === yAxisDataKey) || (item.unit === yAxisSecondaryUnit && item.code === yAxisSecondaryDataKey))
 
-  if (panelsData.length === 0) {
-    return (
-      <div className="flex items-center h-full m-auto gap-2">
-        <TriangleAlert /> No data
-      </div>
-    )
-  }
-  if (!xAxisDataKey || (!(yAxisDataKey && yAxisUnit) && !(yAxisSecondaryDataKey && yAxisSecondaryUnit))) {
-    return (
-      <div className="flex items-center h-full m-auto gap-2">
-        <TriangleAlert /> Please check the X and Y axis settings.
-      </div>
-    )
-  }
+  // if (panelsData.length === 0) {
+  //   return (
+  //     <div className="flex items-center h-full m-auto gap-2">
+  //       <TriangleAlert /> No data
+  //     </div>
+  //   )
+  // }
+  // if (!xAxisDataKey || (!(yAxisDataKey && yAxisUnit) && !(yAxisSecondaryDataKey && yAxisSecondaryUnit))) {
+  //   return (
+  //     <div className="flex items-center h-full m-auto gap-2">
+  //       <TriangleAlert /> Please check the X and Y axis settings.
+  //     </div>
+  //   )
+  // }
 
   return (
     <ResponsiveContainer className={isTransparentBackground ? '' : 'bg-primary-foreground'} width="100%" height="100%" minHeight={0} minWidth={0}>
@@ -153,7 +153,7 @@ function TimeSeriesChart (): JSX.Element {
           yAxisId={2}
           orientation="right"
         />
-        {filteredPanelsData.map((panel) => (
+        {/* {filteredPanelsData.map((panel) => (
           <Line
             key={`line-${panel.code}`}
             type="monotone"
@@ -161,7 +161,7 @@ function TimeSeriesChart (): JSX.Element {
             stroke={'rgb(115, 191, 105)'}
             yAxisId={panel.unit === yAxisSecondaryUnit ? 2 : 1}
           />
-        ))}
+        ))} */}
         {/* {panelsData.map((panel) => (
           <Area
             key={`area-${panel.indicatorCode}`}

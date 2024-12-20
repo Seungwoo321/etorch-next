@@ -20,14 +20,21 @@ function GlobalOption () {
   const setFrequency = useGlobalOptionStore.use.setFrequency()
   const setIsTableView = useGlobalOptionStore.use.setIsTableView()
   const setIndicators = useDataQueryStore.use.setIndicators()
-  const clearPanels = useDataQueryStore.use.clearPanels()
+  // const clearPanels = useDataQueryStore.use.clearPanels()
   useEffect(() => {
-    clearPanels()
+    let ignore = false
+    // clearPanels()
     const fetchData = async () => {
       const indicators = await fetchAllIndicatorsByFrequency(frequency)
-      setIndicators(indicators)
+      if (!ignore) {
+        setIndicators(indicators)
+      }
+      
     }
     fetchData()
+    return () => {
+      ignore = true
+    }
   }, [frequency])
   return (
     <div className="flex justify-end py-1 gap-2 p-1">

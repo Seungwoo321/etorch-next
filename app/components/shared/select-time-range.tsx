@@ -1,5 +1,5 @@
 'use client'
-import React, { useEffect, useState } from 'react'
+import { memo, useState } from 'react'
 import {
   Select,
   SelectContent,
@@ -44,15 +44,13 @@ function SelectTimeRange () {
   const [selectItem, setSelectItem] = useState<{ label: string, value: string } | null>({ label: 'Last 1 year', value: '1Y' })
   const [selectLabel, setSelectLabel] = useState<string>(selectItem?.label || '')
   const setTimeRange = useGlobalOptionStore.use.setTimeRange()
-  useEffect(() => {
-    if (date?.from && date?.to) {
-      setTimeRange({
-        from: format(date.from, 'yyyy-MM-dd'),
-        to: format(date.to, 'yyyy-MM-dd')
-      })
-    }
-  }, [date, setTimeRange])
 
+  if (date?.from && date?.to) {
+    setTimeRange({
+      from: format(date.from, 'yyyy-MM-dd'),
+      to: format(date.to, 'yyyy-MM-dd')
+    })
+  }
   const handleApply = () => {
     setSelectItem(null)
     setOpen(false)
@@ -132,4 +130,4 @@ function SelectTimeRange () {
   )
 }
 
-export default SelectTimeRange
+export default memo(SelectTimeRange)

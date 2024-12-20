@@ -2,11 +2,11 @@
 import { memo } from 'react'
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs'
 import { ScrollArea } from '@/components/ui/scroll-area'
-import DataQueryTabTitle from './data-query-tab-title'
-import DataMappingTabTitle from './data-mapping-tab-title'
-import DataQueryTab from './data-query-tab'
+import DataQueryTabTitle from './tabs/data-query-tab-title'
+import DataMappingTabTitle from './tabs/data-mapping-tab-title'
+import DataQueryTab from './tabs/data-query-tab'
 
-function DataTabs (): JSX.Element {
+function DataPanel (): JSX.Element {
   return (
     <Tabs
       className="flex-col flex md:order-2 w-full h-full"
@@ -32,4 +32,4 @@ function DataTabs (): JSX.Element {
   )
 }
 
-export default memo(DataTabs)
+export default memo(DataPanel)

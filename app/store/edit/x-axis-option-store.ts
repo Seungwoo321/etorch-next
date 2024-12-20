@@ -32,7 +32,7 @@ type XAxisOptionStoreAction = {
 export type XAxisOptionStore = XAxisOptionStoreState & XAxisOptionStoreAction
 
 const initialXAxisOptionState: XAxisOptionStoreState = {
-  xAxisDataKey: '',
+  xAxisDataKey: 'date',
   xAxisVisibility: true,
   xAxisType: 'category',
   xAxisTickCount: 5,

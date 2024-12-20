@@ -3,7 +3,6 @@ import { create } from 'zustand'
 import createSelectors from '@/lib/createSelectors'
 
 type DataQueryStoreState = {
-  openPanels: string[]
   items: QueryOption[]
   indicators: IndicatorValues
   dataValues: Record<string, DataValue[]>
@@ -12,8 +11,6 @@ type DataQueryStoreState = {
 }
 
 type DataQueryStoreAction = {
-  openPanel: (id: string) => void;
-  closePanel: (id: string) => void;
   addItem: (item: QueryOption) => void;
   updateItem: (id: string, newItem: Partial<QueryOption>) => void;
   removeItem: (id: string) => void;
@@ -36,8 +33,6 @@ const combineData = (item: QueryOption, xAxisDataKey: string = 'date', state: Da
   }
 
   const newData = state.dataValues[item.id] ?? []
-  console.log('newData', newData)
-  console.log('xAxisDataKey', xAxisDataKey)
 
   const newKey = item.code
   newData.forEach(dataValue => {
@@ -55,7 +50,6 @@ const combineData = (item: QueryOption, xAxisDataKey: string = 'date', state: Da
 export type DataQueryStore = DataQueryStoreState & DataQueryStoreAction
 
 const initialDataQueryState: DataQueryStoreState = {
-  openPanels: [],
   items: [],
   indicators: {
     kosis: [],
@@ -69,12 +63,6 @@ const initialDataQueryState: DataQueryStoreState = {
 
 const useDataQueryStoreBase = create<DataQueryStore>()((set) => ({
   ...initialDataQueryState,
-  openPanel: (id) => set((state) => ({
-    openPanels: [...state.openPanels, id]
-  })),
-  closePanel: (id) => set((state) => ({
-    openPanels: state.openPanels.filter(panelId => panelId !== id)
-  })),
   addItem: (item) => set((state) => ({ items: [...state.items, item] })),
   updateItem: (id, newItem) => set((state) => ({
     items: state.items.map((item) => (item.id === id ? { ...item, ...newItem } : item))

@@ -3,10 +3,10 @@ import {
   ResizablePanel,
   ResizablePanelGroup
 } from '@/components/ui/resizable'
-import DataTabs from './components/data-panel/data-tabs'
 import GlobalOption from './components/global-option'
+import DataPanel from './components/data-panel/data-panel'
 import OptionsPanel from './components/options-panel/options-panel'
-import PreviewCard from './components/preview-panel/preview-card'
+import PreviewPanel from './components/preview-panel/preview-panel'
 // import { redirect } from 'next/navigation'
 // import { createClient } from '@/lib/supabase/server'
 export default async function Page (): Promise<JSX.Element> {
@@ -34,7 +34,7 @@ export default async function Page (): Promise<JSX.Element> {
               minSize={5}
             >
               <GlobalOption/>
-              <PreviewCard/>
+              <PreviewPanel/>
             </ResizablePanel>
             <ResizableHandle
               className="mt-2 mb-2 p-1"
@@ -44,7 +44,7 @@ export default async function Page (): Promise<JSX.Element> {
               order={2}
               defaultSize={40}
             >
-              <DataTabs />
+              <DataPanel />
             </ResizablePanel>
           </ResizablePanelGroup>
         </ResizablePanel>
