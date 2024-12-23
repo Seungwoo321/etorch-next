@@ -39,7 +39,7 @@ function QueryOptionSelect({
         disabled={disabled}
       >
         <SelectTrigger id={`data-${labelName}`}>
-          <SelectValue />
+          <SelectValue placeholder="Select an option" />
         </SelectTrigger>
         <SelectContent>
           {options.map((option) => (

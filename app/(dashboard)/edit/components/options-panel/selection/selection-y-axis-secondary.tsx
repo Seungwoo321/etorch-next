@@ -9,16 +9,12 @@ import {
 } from '@/components/ui/select'
 import {
   useDataQueryStore,
-  useXAxisOptionStore,
   useYAxisSecondaryOptionStore
 } from '@/store/edit'
 import FormField from '@/components/shared/form-field'
 
 function SelectionYAxisSecondaryOption (): JSX.Element {
-  const items = useDataQueryStore.use.items()
-  const unitDataKeyList = useDataQueryStore.use.unitDataKeyList()
-  const unitList = Object.keys(unitDataKeyList)
-  const xAxisDataKey = useXAxisOptionStore.use.xAxisDataKey()
+
   const yAxisSecondaryUnit = useYAxisSecondaryOptionStore.use.yAxisSecondaryUnit()
   const yAxisSecondaryDataKey = useYAxisSecondaryOptionStore.use.yAxisSecondaryDataKey()
   const yAxisSecondaryVisibility = useYAxisSecondaryOptionStore.use.yAxisSecondaryVisibility()
@@ -39,7 +35,19 @@ function SelectionYAxisSecondaryOption (): JSX.Element {
   const updateYAxisSecondaryTickCount = useYAxisSecondaryOptionStore.use.updateYAxisSecondaryTickCount()
   const updateYAxisSecondaryTickSize = useYAxisSecondaryOptionStore.use.updateYAxisSecondaryTickSize()
   const updateYAxisSecondaryTickLine = useYAxisSecondaryOptionStore.use.updateYAxisSecondaryTickLine()
-  const setChartData = useDataQueryStore.use.setChartData()
+  
+  const items = useDataQueryStore.use.items()
+  const unitList = items
+    .filter(item => item.code)
+    .map(value => value.unit)
+    .reduce((acc: string[], cur) => {
+      cur && acc.includes(cur) ? acc : acc.push(cur)
+      return acc
+    }, [])
+  const unitDataKeyList = items
+    .filter(item => item.unit === yAxisSecondaryUnit)
+    .map(item => item.code)
+
   return (
     <div className="space-y-2 pl-2 pr-1">
       <FormField htmlFor="y-axis-secondary-visibility" label="Visibility">
@@ -83,14 +91,7 @@ function SelectionYAxisSecondaryOption (): JSX.Element {
       <FormField htmlFor="y-axis-secondary-data-key" label="Data key">
         <div className="flex gap-1.5">
           <Select
-            onValueChange={(value) => {
-              const selectedItem = items.find(item => item.code === value)
-              if (selectedItem) {
-                setChartData(selectedItem, xAxisDataKey)
-              }
-
-              updateYAxisSecondaryDataKey(value)
-            }}
+            onValueChange={updateYAxisSecondaryDataKey}
             value={yAxisSecondaryDataKey}
           >
             <SelectTrigger id="y-axis-secondary-data-key">
@@ -99,7 +100,7 @@ function SelectionYAxisSecondaryOption (): JSX.Element {
               </SelectValue>
             </SelectTrigger>
             <SelectContent>
-              {yAxisSecondaryUnit && unitDataKeyList[yAxisSecondaryUnit].map(key => (
+              {unitDataKeyList.map(key => (
                 <SelectItem
                   key={key}
                   value={key}

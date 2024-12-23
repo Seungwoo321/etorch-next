@@ -37,11 +37,19 @@ server.get('/v1/indicators/:origin/:frequency', (req, res) => {
 })
 
 server.get('/v1/indicators/:origin/code/:code/:frequency', (req, res) => {
-    res.send(generateMockData({
+    const { origin, code, frequency } = req.params
+    const indicator = getIndicators(origin, frequency).find(item => item.code === code)
+    const mockData = generateMockData({
         frequency: req.params.frequency,
         from: req.query.from,
         to: req.query.to
+    }).map(item => ({
+        ...item,
+        code,
+        origin,
+        unit: indicator.unit_en
     }))
+    res.send(mockData)
 })
 
 // server.get('/v1/indicators/:origin/:code/:frequency/', (req, res) => {
