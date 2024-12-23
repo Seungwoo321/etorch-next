@@ -5,47 +5,22 @@ import createSelectors from '@/lib/createSelectors'
 type DataQueryStoreState = {
   items: QueryOption[]
   indicators: IndicatorValues
-  dataValues: Record<string, DataValue[]>
+  rawData: DataValue[][]
   unitDataKeyList: Record<string, string[]>
-  chartData: DataValue[];
+  mergedData: DataValue[];
 }
 
 type DataQueryStoreAction = {
   addItem: (item: QueryOption) => void;
   updateItem: (id: string, newItem: Partial<QueryOption>) => void;
   removeItem: (id: string) => void;
-  removeDataValues: (id: string) => void;
-  clearPanels: () => void;
   setIndicators: (Indicators: IndicatorValues) => void;
-  setDataValues: (id: string, dataValues: DataValue[]) => void;
-  setChartData: (selectedItem: QueryOption, xAxisDataKey: string) => void
-  setUnitDataKeyList: (unit: string, keys: string[]) => void,
-  removeUnitDataKeyList: (unit: string, code: string) => void
+  setDataByCode: (code: string, dataValues: DataValue[]) => void;
+  getMergedData: () => void
 }
 
 // type CombineData = Record<string, DataValue>
-const combineData = (item: QueryOption, xAxisDataKey: string = 'date', state: DataQueryStoreState): DataValue[] => {
-  const mergedDataMap: Map<string | number, DataValue> = new Map()
-  if (state.chartData.length) {
-    state.chartData.forEach(item => {
-      mergedDataMap.set(item[xAxisDataKey], { ...item })
-    })
-  }
 
-  const newData = state.dataValues[item.id] ?? []
-
-  const newKey = item.code
-  newData.forEach(dataValue => {
-    console.log(dataValue[xAxisDataKey])
-    if (!mergedDataMap.has(dataValue[xAxisDataKey])) {
-      mergedDataMap.set(dataValue[xAxisDataKey], {
-        [xAxisDataKey]: dataValue[xAxisDataKey]
-      })
-    }
-    mergedDataMap.get(dataValue[xAxisDataKey])![newKey] = dataValue.value
-  })
-  return Array.from(mergedDataMap.values()).sort((a, b) => (a.date < b.date ? -1 : a.date > b.date ? 1 : 0))
-}
 
 export type DataQueryStore = DataQueryStoreState & DataQueryStoreAction
 
@@ -56,9 +31,9 @@ const initialDataQueryState: DataQueryStoreState = {
     ecos: [],
     oecd: []
   },
-  dataValues: {},
+  rawData: [],
   unitDataKeyList: {},
-  chartData: []
+  mergedData: []
 }
 
 const useDataQueryStoreBase = create<DataQueryStore>()((set) => ({
@@ -69,44 +44,30 @@ const useDataQueryStoreBase = create<DataQueryStore>()((set) => ({
   })),
   removeItem: (id) => set((state) => ({
     items: state.items.filter((item) => item.id !== id)
-
-  })),
-  removeDataValues: (id) => set((state) => ({
-    dataValues: state.items.reduce<Record<string, DataValue[]>>((acc, cur) => {
-      if (cur.id !== id) {
-        acc[cur.id] = state.dataValues[cur.id]
-      }
-      return acc
-    }, {})
-  })),
-  clearPanels: () => set(() => ({
-    ...initialDataQueryState
   })),
   setIndicators: (indicators) => set(() => ({
     indicators
   })),
-  setDataValues: (id, dataValues) => set((state) => ({
-    dataValues: {
-      ...state.dataValues,
-      [id]: dataValues
-    }
+  setDataByCode: (code, data) => set((state) => ({
+    rawData: [...state.rawData.filter((item) => item[0].code !== code), data]
   })),
-  setChartData: (selectedItem, xAxisDataKey) => set((state) => ({
-    chartData: combineData(selectedItem, xAxisDataKey === '' ? 'date' : xAxisDataKey, state)
-  })),
-  setUnitDataKeyList: (unit, keys) => set((state) => ({
-    unitDataKeyList: {
-      ...state.unitDataKeyList,
-      [unit]: Array.from(new Set([...state.unitDataKeyList[unit] ?? [], ...keys]))
-    }
-  })),
-  removeUnitDataKeyList: (unit, code) => set((state) => ({
-    unitDataKeyList: {
-      ...state.unitDataKeyList,
-      [unit]: Array.from(new Set((state.unitDataKeyList[unit] ?? []).filter(key => key !== code)))
-    }
+  getMergedData: () => set((state) => ({
+    mergedData: mergeDatasets(state.rawData)
   }))
 }))
+function mergeDatasets(rawData: DataValue[][]): DataValue[] {
+  const merged: Record<string, DataValue> = {}
+  rawData.forEach((dataValues) => {
+    dataValues.forEach(({ date, code, value }) => {
+      merged[date] = {
+        ...merged[date],
+        date,
+        ...(value !== undefined ? { [code]: value } : {})
+      }
+    })
+  })
+  return Object.values(merged)
+}
 
 export const useDataQueryStore = createSelectors(useDataQueryStoreBase)
 

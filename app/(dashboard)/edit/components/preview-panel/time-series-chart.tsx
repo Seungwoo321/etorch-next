@@ -23,11 +23,16 @@ import {
   useYAxisSecondaryOptionStore
 } from '@/store/edit'
 import { TriangleAlert } from 'lucide-react'
+import { DataValue } from '@/lib/definitions';
+
+function getUniqueDates(...dataArrays: DataValue[][]) {
+  const allDates = dataArrays.flat().map(item => item.date);
+  return Array.from(new Set<string | number>(allDates));
+}
 
 function TimeSeriesChart (): JSX.Element {
-  const chartData = useDataQueryStore.use.chartData()
-  const dataValues = useDataQueryStore.use.dataValues()
-
+  const rawData = useDataQueryStore.use.rawData()
+  const mregedData = useDataQueryStore.use.mergedData()
   const isTransparentBackground = usePanelOptionStore.use.isTransparentBackground()
   const tooltipMode = useTooltipOptionStore.use.tooltipMode()
   const cursorLineStyle = useTooltipOptionStore.use.cursorLineStyle()
@@ -75,8 +80,6 @@ function TimeSeriesChart (): JSX.Element {
   const yAxisSecondaryTickLine = useYAxisSecondaryOptionStore.use.yAxisSecondaryTickLine()
   const yAxisSecondaryColor = useYAxisSecondaryOptionStore.use.yAxisSecondaryColor()
 
-  // const panelsData = useDataQueryStore.use.items().filter(item => dataValues[item.id])
-
   // const filteredPanelsData = panelsData.filter(item => (item.unit === yAxisUnit && item.code === yAxisDataKey) || (item.unit === yAxisSecondaryUnit && item.code === yAxisSecondaryDataKey))
 
   // if (panelsData.length === 0) {
@@ -93,10 +96,21 @@ function TimeSeriesChart (): JSX.Element {
   //     </div>
   //   )
   // }
+  const chartData = rawData.reduce((acc, cur) => {
+    const { unit, code } = cur[0];
+    const addToChartData = (unitCheck: string, dataKey: string, yAxisId: number) => {
+      if (unit === unitCheck && dataKey !== '') {
+        acc.push({ code, yAxisId });
+      }
+    };
+    addToChartData(yAxisUnit, yAxisDataKey, 1);
+    addToChartData(yAxisSecondaryUnit, yAxisSecondaryDataKey, 2);
+    return acc
+  }, [])
 
   return (
     <ResponsiveContainer className={isTransparentBackground ? '' : 'bg-primary-foreground'} width="100%" height="100%" minHeight={0} minWidth={0}>
-      <ComposedChart width={200} height={300} data={chartData} margin={{ top: 24, right: 20, bottom: 8, left: 0 }}>
+      <ComposedChart width={200} height={300} data={mregedData} margin={{ top: 24, right: 20, bottom: 8, left: 0 }}>
 
         <CartesianGrid
           vertical={true}
@@ -153,15 +167,16 @@ function TimeSeriesChart (): JSX.Element {
           yAxisId={2}
           orientation="right"
         />
-        {/* {filteredPanelsData.map((panel) => (
+
+        {chartData.map((item) => (
           <Line
-            key={`line-${panel.code}`}
+            key={`line-${item.code}`}
             type="monotone"
-            dataKey={panel.code}
+            dataKey={item.code}
             stroke={'rgb(115, 191, 105)'}
-            yAxisId={panel.unit === yAxisSecondaryUnit ? 2 : 1}
+            yAxisId={item.yAxisId}
           />
-        ))} */}
+        ))}
         {/* {panelsData.map((panel) => (
           <Area
             key={`area-${panel.indicatorCode}`}

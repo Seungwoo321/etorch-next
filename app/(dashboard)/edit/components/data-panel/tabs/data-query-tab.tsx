@@ -13,7 +13,6 @@ function DataQueryTab () {
           <QueryOptionCard
             option={item}
             key={item.id}
-            id={item.id}
           />
         ))}
       </div>
