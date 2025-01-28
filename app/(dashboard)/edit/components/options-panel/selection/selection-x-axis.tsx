@@ -1,21 +1,15 @@
-import { Switch } from '@/components/ui/switch'
-import { Input } from '@/components/ui/input'
+import { useCallback, useMemo } from 'react'
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue
-} from '@/components/ui/select'
-import { useDataQueryStore, useXAxisOptionStore } from '@/store/edit'
-import FormField from '@/components/shared/form-field'
+  useDataQueryStore,
+  useYAxisOptionStore,
+  useYAxisSecondaryOptionStore,
+  useXAxisOptionStore
+} from '@/store/edit'
+import NumberInputForm from '../form/number-input-form'
+import SwitchForm from '../form/switch-form'
+import SelectForm from '../form/select-form'
 
 function SelectionXAxis (): JSX.Element {
-  const unitDataKeyList = useDataQueryStore.use.unitDataKeyList()
-  const uniqueDataKey = Object.values(unitDataKeyList).reduce((acc, cur) => {
-    cur.forEach(v => !acc.includes(v) && acc.push(v))
-    return acc
-  }, [])
   const xAxisDataKey = useXAxisOptionStore.use.xAxisDataKey()
   const xAxisVisibility = useXAxisOptionStore.use.xAxisVisibility()
   const xAxisType = useXAxisOptionStore.use.xAxisType()
@@ -36,170 +30,111 @@ function SelectionXAxis (): JSX.Element {
   const updateXAxisTickAngle = useXAxisOptionStore.use.updateXAxisTickAngle()
   const updateXAxisTickSize = useXAxisOptionStore.use.updateXAxisTickSize()
   const updateXAxisTickLine = useXAxisOptionStore.use.updateXAxisTickLine()
+
+  const mregedData = useDataQueryStore.use.mergedData()
+
+  const xAxisDataKeyList = useMemo(() => {
+    if (mregedData.length) {
+      return Object.keys(mregedData[0]).map(key => ({
+        value: key,
+        label: key
+      }))
+    } else {
+      return []
+    }
+  }, [mregedData])
+
+  const typeList = useMemo(() => [
+    { label: 'category', value: 'category' },
+    { label: 'number', value: 'number' }
+  ], [])
+
   return (
     <div className="space-y-2 pl-2 pr-1">
-      <FormField htmlFor="x-axis-visibility" label="Visibility">
-        <Switch
-          id="x-axis-visibility"
-          checked={xAxisVisibility}
-          onCheckedChange={(value) => {
-            if (!value) {
-              updateXAxisDataKey('')
-            }
-            updateXAxisVisibility(value)
-          }}
-        />
-      </FormField>
-
-      <FormField htmlFor="x-axis-data-key" label="Data key">
-        <div className="flex gap-1.5">
-          <Select
-            onValueChange={updateXAxisDataKey}
-            value={xAxisDataKey}
-          >
-            <SelectTrigger id="x-axis-data-key">
-              <SelectValue
-                placeholder="Not selectable"
-              >
-                {xAxisDataKey}
-              </SelectValue>
-            </SelectTrigger>
-            <SelectContent>
-              {uniqueDataKey.map(key => (
-                <SelectItem
-                  key={key}
-                  value={key}>
-                  {key}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
-      </FormField>
-
-      <FormField htmlFor="x-axis-type" label="Type">
-        <Select
-          onValueChange={(value) => {
-            if (value === 'category' || value === 'number') {
-              updateXAxisType(value)
-            }
-            if (value === 'category') {
-              updateXAxisDomainMin(0)
-              updateXAxisDomainMax('auto')
-            }
-          }}
-          value={xAxisType}
-        >
-          <SelectTrigger id="x-axis-type">
-            <SelectValue></SelectValue>
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="category">category</SelectItem>
-            <SelectItem value="number">number</SelectItem>
-          </SelectContent>
-        </Select>
-      </FormField>
-
+      <SwitchForm
+        label="Visibility"
+        id="x-axis-visibility"
+        checked={xAxisVisibility}
+        handleCheckedChange={updateXAxisVisibility}
+      />
+      <SelectForm
+        label="Data key"
+        id="x-axis-data-key"
+        placeholder="Not selectable"
+        value={xAxisDataKey}
+        handleValueChange={updateXAxisDataKey}
+        options={xAxisDataKeyList}
+      />
+      <SelectForm
+        label="Type"
+        id="x-axis-type"
+        value={xAxisType}
+        handleValueChange={useCallback((value: string) => {
+          if (value === 'category' || value === 'number') {
+            updateXAxisType(value)
+          }
+          if (value === 'category') {
+            updateXAxisDomainMin(0)
+            updateXAxisDomainMax('auto')
+          }
+        }, [])}
+        options={typeList}
+      />
       {xAxisType === 'number' && (
         <>
-          <FormField htmlFor="x-axis-domain-min" label="Min">
-            <Input
-              id="x-axis-domain-min"
-              type="text"
-              className="sm"
-              value={xAxisDomainMin}
-              onInput={(e) => {
-                if (e.currentTarget.value === 'auto') {
-                  updateXAxisDomainMin(e.currentTarget.value)
-                } else if (!isNaN(+e.currentTarget.value) && typeof +e.currentTarget.value === 'number') {
-                  updateXAxisDomainMin(+e.currentTarget.value)
-                }
-              }}
-            />
-          </FormField>
-
-          <FormField htmlFor="x-axis-domain-max" label="Max">
-            <Input
-              id="x-axis-domain-max"
-              type="text"
-              className="sm"
-              value={xAxisDomainMax}
-              onInput={(e) => {
-                if (e.currentTarget.value === 'auto') {
-                  updateXAxisDomainMax(e.currentTarget.value)
-                } else if (!isNaN(+e.currentTarget.value) && typeof +e.currentTarget.value === 'number') {
-                  updateXAxisDomainMax(+e.currentTarget.value)
-                }
-              }}
-            />
-          </FormField>
+          <NumberInputForm
+            label="Min"
+            id="x-axis-domain-min"
+            value={xAxisDomainMin}
+            handleInputChange={updateXAxisDomainMin}
+          />
+          <NumberInputForm
+            label="Max"
+            id="x-axis-domain-max"
+            value={xAxisDomainMax}
+            handleInputChange={updateXAxisDomainMax}
+            useAuto
+          />
         </>
       )}
-
-      <FormField htmlFor="x-axis-axis-line" label="Show Axis">
-        <Switch
-          id="x-axis-axis-line"
-          checked={xAxisAxisLine}
-          onCheckedChange={updateXAxisAxisLine}
-        />
-      </FormField>
-
+      <SwitchForm
+        label="Show Axis"
+        id="x-axis-axis-line"
+        checked={xAxisAxisLine}
+        handleCheckedChange={updateXAxisAxisLine}
+      />
       {xAxisType === 'number' && (
-        <FormField htmlFor="x-axis-tick-count" label="Tick Count">
-          <Input
-            id="x-axis-tick-count"
-            type="number"
-            min={5}
-            className="sm"
-            value={xAxisTickCount}
-            onInput={(e) => {
-              if (!isNaN(+e.currentTarget.value) && typeof +e.currentTarget.value === 'number') {
-                updateXAxisTickCount(+e.currentTarget.value)
-              }
-            }}
-          />
-        </FormField>
+        <NumberInputForm
+          label="Tick Count"
+          id="x-axis-tick-count"
+          min={5}
+          value={xAxisTickCount}
+          handleInputChange={updateXAxisTickCount}
+        />
       )}
-      <FormField htmlFor="x-axis-tick-angle" label="Tick Angle">
-        <Input
-          id="x-axis-tick-angle"
-          type="number"
-          min={0}
-          max={360}
-          className="sm"
-          value={xAxisTickAngle}
-          onInput={(e) => {
-            if (!isNaN(+e.currentTarget.value) && typeof +e.currentTarget.value === 'number') {
-              updateXAxisTickAngle(+e.currentTarget.value)
-            }
-          }}
-        />
-      </FormField>
-
-      <FormField htmlFor="x-axis-tick-line" label="Show Tick">
-        <Switch
-          id="x-axis-tick-line"
-          checked={xAxisTickLine}
-          onCheckedChange={updateXAxisTickLine}
-        />
-      </FormField>
+      <NumberInputForm
+        label="Tick Angle"
+        id="x-axis-tick-angle"
+        min={0}
+        max={360}
+        value={xAxisTickAngle}
+        handleInputChange={updateXAxisTickAngle}
+      />
+      <SwitchForm
+        label="Show Tick"
+        id="x-axis-tick-line"
+        checked={xAxisTickLine}
+        handleCheckedChange={updateXAxisTickLine}
+      />
       {xAxisTickLine && (
-        <FormField htmlFor="x-axis-tick-size" label="Tick Size">
-          <Input
-            id="x-axis-tick-size"
-            type="number"
-            max={10}
-            className="sm"
-            value={xAxisTickSize}
-            onInput={(e) => {
-              if (!isNaN(+e.currentTarget.value) && typeof +e.currentTarget.value === 'number') {
-                updateXAxisTickSize(+e.currentTarget.value)
-              }
-            }}
-          />
-        </FormField>
+        <NumberInputForm
+          label="Tick Size"
+          id="x-axis-tick-size"
+          max={10}
+          value={xAxisTickSize}
+          handleInputChange={updateXAxisTickSize}
+        />
       )}
-
     </div>
   )
 }

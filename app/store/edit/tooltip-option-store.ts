@@ -28,11 +28,21 @@ const initialTooltipOptionState: TooltipOptionStoreState = {
 
 export const useTooltipOptionStoreBase = create<TooltipOptionStore>(set => ({
   ...initialTooltipOptionState,
-  updateTooltipMode: tooltipMode => { set(() => ({ tooltipMode })) },
-  updateTooltipMaxWidth: tooltiMaxWidth => { set(() => ({ tooltiMaxWidth })) },
-  updateCursorLineStyle: cursorLineStyle => { set(() => ({ cursorLineStyle })) },
-  updateCursorLineStyleWidth: cursorLineStyleWidth => { set(() => ({ cursorLineStyleWidth })) },
-  updateCursorLineStyleDasharray: cursorLineStyleDasharray => { set(() => ({ cursorLineStyleDasharray })) }
+  updateTooltipMode: tooltipMode => {
+    set(() => ({ tooltipMode }))
+  },
+  updateTooltipMaxWidth: tooltiMaxWidth => {
+    set(() => ({ tooltiMaxWidth }))
+  },
+  updateCursorLineStyle: cursorLineStyle => {
+    set(() => ({ cursorLineStyle }))
+  },
+  updateCursorLineStyleWidth: cursorLineStyleWidth => {
+    set(() => ({ cursorLineStyleWidth }))
+  },
+  updateCursorLineStyleDasharray: cursorLineStyleDasharray => {
+    set(() => ({ cursorLineStyleDasharray }))
+  }
 }))
 
 export const useTooltipOptionStore = createSelectors(useTooltipOptionStoreBase)

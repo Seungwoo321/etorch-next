@@ -1,4 +1,4 @@
-import { memo } from "react"
+import { memo } from 'react'
 import {
   Select,
   SelectContent,
@@ -16,17 +16,20 @@ type QueryOptionSelectProps = {
   formatter?: (value: any) => string
   onQueryOptionChange: (value: string) => void
   disabled?: boolean
+  selectedValues?: string[]
 }
 
-function QueryOptionSelect({
+function QueryOptionSelect ({
   className,
   labelName,
   value,
   options,
   formatter,
   onQueryOptionChange,
-  disabled = false
+  disabled = false,
+  selectedValues = []
 }: QueryOptionSelectProps) {
+  const selectedSet = new Set(selectedValues)
   return (
     <div className={className}>
       <Label htmlFor={`data-${labelName}`}>
@@ -42,14 +45,18 @@ function QueryOptionSelect({
           <SelectValue placeholder="Select an option" />
         </SelectTrigger>
         <SelectContent>
-          {options.map((option) => (
-            <SelectItem
-              key={option.value}
-              value={option.value}
-            >
-              {formatter ? formatter(option) : `${option.name}`}
-            </SelectItem>
-          ))}
+          {options.map((option) => {
+            const isSelected = selectedSet.has(option.value)
+            return (
+              <SelectItem
+                key={option.value}
+                value={option.value}
+                disabled={isSelected}
+              >
+                {formatter ? formatter(option) : `${option.name}`}
+              </SelectItem>
+            )
+          })}
         </SelectContent>
       </Select>
     </div>

@@ -5,9 +5,9 @@ import {
 } from '@/components/ui/card'
 import {
   useDataQueryStore,
-  useGlobalOptionStore,
+  useGlobalOptionStore
 } from '@/store/edit'
-import { memo, useCallback, useMemo } from 'react'
+import { memo, useCallback } from 'react'
 import { QueryOption } from '@/lib/definitions'
 import QueryOptionRemoveButton from './query-option-remove-button'
 import QueryOptionSelect from './query-option-select'
@@ -30,14 +30,14 @@ const dataSorceOptions = [
     value: 'oecd'
   }
 ]
-function QueryOptionCard({ option }: QueryOptionCardProps) {
+function QueryOptionCard ({ option }: QueryOptionCardProps) {
   const frequency = useGlobalOptionStore.use.frequency()
   const timeRagne = useGlobalOptionStore.use.timeRagne()
   const indicators = useDataQueryStore.use.indicators()
   const updateItem = useDataQueryStore.use.updateItem()
-  const setDataByCode = useDataQueryStore.use.setDataByCode()
-  const getMergedData = useDataQueryStore.use.getMergedData()
+  const addRawData = useDataQueryStore.use.addRawData()
   const codeByIndicators = indicators[option.origin] ?? []
+  const removeRawData = useDataQueryStore.use.removeRawData()
   const fetchChartData = async (code: string) => {
     const dataValues = await fetchIndicatorValues({
       origin: option.origin,
@@ -45,11 +45,16 @@ function QueryOptionCard({ option }: QueryOptionCardProps) {
       frequency,
       timeRagne
     })
-    setDataByCode(code, dataValues)
-    getMergedData()
+    removeRawData(option.code)
+    addRawData(dataValues)
   }
   const handleOriginChange = useCallback((origin: string) => {
-    updateItem(option.id, { origin })
+    updateItem(option.id, {
+      origin
+    })
+    if (option.code !== '') {
+      removeRawData(option.code)
+    }
   }, [option])
   const handleCodeChange = useCallback((code: string) => {
     const selectedItem = codeByIndicators.find(indicator => indicator.code === code)
@@ -60,7 +65,8 @@ function QueryOptionCard({ option }: QueryOptionCardProps) {
     fetchChartData(code)
   }, [option])
   const indicatorsOptions = codeByIndicators.map(item => ({ name: item.name, value: item.code }))
-
+  const items = useDataQueryStore.use.items()
+  const selectedCodes = items.filter(item => item.code !== '').map(item => item.code)
   return (
     <Card>
       <CardContent className="pt-6">
@@ -81,10 +87,12 @@ function QueryOptionCard({ option }: QueryOptionCardProps) {
                 formatter={(option => `${option.name} (${option.value})`)}
                 options={indicatorsOptions}
                 onQueryOptionChange={handleCodeChange}
+                selectedValues={selectedCodes}
               />
               <QueryOptionRemoveButton
                 className="flex items-end"
                 cardId={option.id}
+                code={option.code}
               />
             </div>
           </div>

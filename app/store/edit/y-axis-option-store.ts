@@ -47,17 +47,39 @@ const initialYAxisOptionState: YAxisOptionStoreState = {
 
 export const useYAxisOptionStoreBase = create<YAxisOptionStore>(set => ({
   ...initialYAxisOptionState,
-  updateYAxisUnit: yAxisUnit => { set(() => ({ yAxisUnit })) },
-  updateYAxisDataKey: yAxisDataKey => { set(() => ({ yAxisDataKey })) },
-  updateYAxisVisibility: yAxisVisibility => { set(() => ({ yAxisVisibility })) },
-  updateYAxisType: yAxisType => { set(() => ({ yAxisType })) },
-  updateYAxisTickCount: yAxisTickCount => { set(() => ({ yAxisTickCount })) },
-  updateYAxisTickSize: yAxisTickSize => { set(() => ({ yAxisTickSize })) },
-  updateYAxisDomainMin: yAxisDomainMin => { set(() => ({ yAxisDomainMin })) },
-  updateYAxisDomainMax: yAxisDomainMax => { set(() => ({ yAxisDomainMax })) },
-  updateYAxisAxisLine: yAxisAxisLine => { set(() => ({ yAxisAxisLine })) },
-  updateYAxisTickLine: yAxisTickLine => { set(() => ({ yAxisTickLine })) },
-  updateYAxisColor: yAxisColor => { set(() => ({ yAxisColor })) }
+  updateYAxisUnit: yAxisUnit => {
+    set(() => ({ yAxisUnit }))
+  },
+  updateYAxisDataKey: yAxisDataKey => {
+    set(() => ({ yAxisDataKey }))
+  },
+  updateYAxisVisibility: yAxisVisibility => {
+    set(() => ({ yAxisVisibility }))
+  },
+  updateYAxisType: yAxisType => {
+    set(() => ({ yAxisType }))
+  },
+  updateYAxisTickCount: yAxisTickCount => {
+    set(() => ({ yAxisTickCount }))
+  },
+  updateYAxisTickSize: yAxisTickSize => {
+    set(() => ({ yAxisTickSize }))
+  },
+  updateYAxisDomainMin: yAxisDomainMin => {
+    set(() => ({ yAxisDomainMin }))
+  },
+  updateYAxisDomainMax: yAxisDomainMax => {
+    set(() => ({ yAxisDomainMax }))
+  },
+  updateYAxisAxisLine: yAxisAxisLine => {
+    set(() => ({ yAxisAxisLine }))
+  },
+  updateYAxisTickLine: yAxisTickLine => {
+    set(() => ({ yAxisTickLine }))
+  },
+  updateYAxisColor: yAxisColor => {
+    set(() => ({ yAxisColor }))
+  }
 }))
 
 export const useYAxisOptionStore = createSelectors(useYAxisOptionStoreBase)

@@ -47,17 +47,39 @@ const initialYAxisSecondaryOptionState: YAxisSecondaryOptionStoreState = {
 
 export const useYAxisSecondaryOptionStoreBase = create<YAxisSecondaryOptionStore>(set => ({
   ...initialYAxisSecondaryOptionState,
-  updateYAxisSecondaryUnit: yAxisSecondaryUnit => { set(() => ({ yAxisSecondaryUnit })) },
-  updateYAxisSecondaryDataKey: yAxisSecondaryDataKey => { set(() => ({ yAxisSecondaryDataKey })) },
-  updateYAxisSecondaryVisibility: yAxisSecondaryVisibility => { set(() => ({ yAxisSecondaryVisibility })) },
-  updateYAxisSecondaryType: yAxisSecondaryType => { set(() => ({ yAxisSecondaryType })) },
-  updateYAxisSecondaryTickCount: yAxisSecondaryTickCount => { set(() => ({ yAxisSecondaryTickCount })) },
-  updateYAxisSecondaryTickSize: yAxisSecondaryTickSize => { set(() => ({ yAxisSecondaryTickSize })) },
-  updateYAxisSecondaryDomainMin: yAxisSecondaryDomainMin => { set(() => ({ yAxisSecondaryDomainMin })) },
-  updateYAxisSecondaryDomainMax: yAxisSecondaryDomainMax => { set(() => ({ yAxisSecondaryDomainMax })) },
-  updateYAxisSecondaryAxisLine: yAxisSecondaryAxisLine => { set(() => ({ yAxisSecondaryAxisLine })) },
-  updateYAxisSecondaryTickLine: yAxisSecondaryTickLine => { set(() => ({ yAxisSecondaryTickLine })) },
-  updateYAxisSecondaryColor: yAxisSecondaryColor => { set(() => ({ yAxisSecondaryColor })) }
+  updateYAxisSecondaryUnit: yAxisSecondaryUnit => {
+    set(() => ({ yAxisSecondaryUnit }))
+  },
+  updateYAxisSecondaryDataKey: yAxisSecondaryDataKey => {
+    set(() => ({ yAxisSecondaryDataKey }))
+  },
+  updateYAxisSecondaryVisibility: yAxisSecondaryVisibility => {
+    set(() => ({ yAxisSecondaryVisibility }))
+  },
+  updateYAxisSecondaryType: yAxisSecondaryType => {
+    set(() => ({ yAxisSecondaryType }))
+  },
+  updateYAxisSecondaryTickCount: yAxisSecondaryTickCount => {
+    set(() => ({ yAxisSecondaryTickCount }))
+  },
+  updateYAxisSecondaryTickSize: yAxisSecondaryTickSize => {
+    set(() => ({ yAxisSecondaryTickSize }))
+  },
+  updateYAxisSecondaryDomainMin: yAxisSecondaryDomainMin => {
+    set(() => ({ yAxisSecondaryDomainMin }))
+  },
+  updateYAxisSecondaryDomainMax: yAxisSecondaryDomainMax => {
+    set(() => ({ yAxisSecondaryDomainMax }))
+  },
+  updateYAxisSecondaryAxisLine: yAxisSecondaryAxisLine => {
+    set(() => ({ yAxisSecondaryAxisLine }))
+  },
+  updateYAxisSecondaryTickLine: yAxisSecondaryTickLine => {
+    set(() => ({ yAxisSecondaryTickLine }))
+  },
+  updateYAxisSecondaryColor: yAxisSecondaryColor => {
+    set(() => ({ yAxisSecondaryColor }))
+  }
 }))
 
 export const useYAxisSecondaryOptionStore = createSelectors(useYAxisSecondaryOptionStoreBase)

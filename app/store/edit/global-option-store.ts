@@ -32,15 +32,21 @@ const initialGlobalOptionState: GlobalOptionStoreState = {
 
 const useGlobalOptionStoreBase = create<GlobalOptionStore>()((set) => ({
   ...initialGlobalOptionState,
-  setFrequency: (frequency) => set(() => ({
-    frequency
-  })),
-  setIsTableView: (isTableView) => set(() => ({
-    isTableView
-  })),
-  setTimeRange: (timeRange: TimeRange) => set(() => ({
-    timeRagne: timeRange
-  }))
+  setFrequency: (frequency) => {
+    set(() => ({
+      frequency
+    }))
+  },
+  setIsTableView: (isTableView) => {
+    set(() => ({
+      isTableView
+    }))
+  },
+  setTimeRange: (timeRange: TimeRange) => {
+    set(() => ({
+      timeRagne: timeRange
+    }))
+  }
 }))
 
 export const useGlobalOptionStore = createSelectors(useGlobalOptionStoreBase)

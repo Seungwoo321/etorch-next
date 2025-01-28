@@ -23,9 +23,15 @@ const initailPanelOptionState: PanelOptionStoreStaet = {
 
 export const usePanelOptionStoreBase = create<PanelOptionStore>(set => ({
   ...initailPanelOptionState,
-  updateTitle: title => { set(() => ({ title })) },
-  updateDescription: description => { set(() => ({ description })) },
-  updateIsTransparentBackground: isTransparentBackground => { set(() => ({ isTransparentBackground })) }
+  updateTitle: title => {
+    set(() => ({ title }))
+  },
+  updateDescription: description => {
+    set(() => ({ description }))
+  },
+  updateIsTransparentBackground: isTransparentBackground => {
+    set(() => ({ isTransparentBackground }))
+  }
 }))
 
 export const usePanelOptionStore = createSelectors(usePanelOptionStoreBase)

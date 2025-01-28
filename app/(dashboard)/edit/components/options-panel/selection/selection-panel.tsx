@@ -1,9 +1,9 @@
 'use client'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { Switch } from '@/components/ui/switch'
 import { Textarea } from '@/components/ui/textarea'
 import { usePanelOptionStore } from '@/store/edit'
+import SwitchForm from '../form/switch-form'
 
 function SelectionPanel (): JSX.Element {
   const title = usePanelOptionStore.use.title()
@@ -32,14 +32,12 @@ function SelectionPanel (): JSX.Element {
           onInput={(e) => { updateDescription(e.currentTarget.value) }}
         />
       </div>
-      <div className="grid w-full max-w-sm items-center gap-1.5">
-        <Label htmlFor="transparent-background">Transparent background</Label>
-        <Switch
-          id="transparent-background"
-          checked={isTransparentBackground}
-          onCheckedChange={updateIsTransparentBackground}
-        />
-      </div>
+      <SwitchForm
+        label="Transparent background"
+        id="transparent-background"
+        checked={isTransparentBackground}
+        handleCheckedChange={updateIsTransparentBackground}
+      />
     </div>
   )
 }

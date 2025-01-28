@@ -1,5 +1,3 @@
-import { Label } from '@/components/ui/label'
-import { Switch } from '@/components/ui/switch'
 import {
   ToggleGroup,
   ToggleGroupItem
@@ -8,6 +6,7 @@ import { useLegendOptionStore } from '@/store/edit'
 import { type LayoutType } from 'recharts/types/util/types'
 import { type VerticalAlignmentType, type HorizontalAlignmentType } from 'recharts/types/component/DefaultLegendContent'
 import FormField from '@/components/shared/form-field'
+import SwitchForm from '../form/switch-form'
 
 function SelectionLegend (): JSX.Element {
   const legendVisibility = useLegendOptionStore.use.legendVisibility()
@@ -20,14 +19,12 @@ function SelectionLegend (): JSX.Element {
   const updateLegendVerticalAlign = useLegendOptionStore.use.updateLegendVerticalAlign()
   return (
     <div className="space-y-2 pl-2 pr-1">
-      <div className="grid w-full max-w-sm items-center gap-1.5">
-        <Label htmlFor="legend-visibility">Visibility</Label>
-        <Switch
-          id="legend-visibility"
-          checked={legendVisibility}
-          onCheckedChange={updateLegendVisibility}
-        />
-      </div>
+      <SwitchForm
+        label="Visibility"
+        id="legend-visibility"
+        checked={legendVisibility}
+        handleCheckedChange={updateLegendVisibility}
+      />
       <div className="grid w-full max-w-sm items-center gap-1.5">
         <span>Layout</span>
         <ToggleGroup

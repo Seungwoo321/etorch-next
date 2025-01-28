@@ -12,8 +12,7 @@ import SelectionLegend from './selection/selection-legend'
 import SelectionXAxis from './selection/selection-x-axis'
 import SelectionYAxis from './selection/selection-y-axis'
 import SelectionYAxisSecondary from './selection/selection-y-axis-secondary'
-// import SelectionGraphStyle from '@/components/Selection/SelectionGraphStyle'
-// import SelectionYAxisSecondaryOption from '@/components/Selection/SelectionYAxisSecondaryOption'
+
 import { ScrollArea } from '@/components/ui/scroll-area'
 function OptionsPanel (): JSX.Element {
   return (

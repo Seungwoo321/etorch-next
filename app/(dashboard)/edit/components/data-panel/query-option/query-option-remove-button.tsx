@@ -5,12 +5,15 @@ import { memo } from 'react'
 type QueryOptionRemoveButtonProps = {
   className: string
   cardId: string
+  code: string
 }
 
-function QueryOptionRemoveButton({ className, cardId }: QueryOptionRemoveButtonProps) {
+function QueryOptionRemoveButton ({ className, cardId, code }: QueryOptionRemoveButtonProps) {
   const removeItem = useDataQueryStore.use.removeItem()
+  const removeRawData = useDataQueryStore.use.removeRawData()
   const handleRemoveItem = () => {
     removeItem(cardId)
+    removeRawData(code)
   }
   return (
     <div className={className}>

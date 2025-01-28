@@ -18,12 +18,18 @@ export interface GraphStylesOptionStore {
 
 export const useGraphStylesOptionStoreBase = create<GraphStylesOptionStore>(set => ({
   graphStyle: 'Line',
-  updateGraphStyle: graphStyle => { set(() => ({ graphStyle })) },
+  updateGraphStyle: graphStyle => {
+    set(() => ({ graphStyle }))
+  },
 
   lineWidth: 1,
-  updateLineWidth: lineWidth => { set(() => ({ lineWidth })) },
+  updateLineWidth: lineWidth => {
+    set(() => ({ lineWidth }))
+  },
   fillOpacity: 35,
-  updateFillOpacity: fillOpacity => { set(() => ({ fillOpacity })) }
+  updateFillOpacity: fillOpacity => {
+    set(() => ({ fillOpacity }))
+  }
 }))
 
 export const useGraphStylesOptionStore = createSelectors(useGraphStylesOptionStoreBase)

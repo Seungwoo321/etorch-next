@@ -20,10 +20,8 @@ function GlobalOption () {
   const setFrequency = useGlobalOptionStore.use.setFrequency()
   const setIsTableView = useGlobalOptionStore.use.setIsTableView()
   const setIndicators = useDataQueryStore.use.setIndicators()
-  // const clearPanels = useDataQueryStore.use.clearPanels()
   useEffect(() => {
     let ignore = false
-    // clearPanels()
     const fetchData = async () => {
       const indicators = await fetchAllIndicatorsByFrequency(frequency)
       if (!ignore) {

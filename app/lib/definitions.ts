@@ -20,7 +20,6 @@ export interface IndicatorValuesParamss {
 }
 
 export type IndicatorValues = {
-  // [key in 'kosis' | 'ecos' | 'oecd']: Indicator[]
   [key: string]: Indicator[]
 }
 

@@ -1,4 +1,3 @@
-import { Input } from '@/components/ui/input'
 import {
   ToggleGroup,
   ToggleGroupItem
@@ -12,6 +11,7 @@ import {
   SelectValue
 } from '@/components/ui/select'
 import FormField from '@/components/shared/form-field'
+import NumberInputForm from '../form/number-input-form'
 
 function SelectionTooltip (): JSX.Element {
   const tooltipMode = useTooltipOptionStore.use.tooltipMode()
@@ -50,15 +50,12 @@ function SelectionTooltip (): JSX.Element {
       </FormField>
       {tooltipMode !== 'hidden' && (
         <>
-          <FormField htmlFor="tooltip-max-width" label="Max width">
-            <Input
-              id="tooltip-max-width"
-              type="number"
-              className="sm"
-              value={tooltiMaxWidth}
-              onInput={(e) => { updateTooltipMaxWidth(+e.currentTarget.value) }}
-            />
-          </FormField>
+          <NumberInputForm
+            label="Max width"
+            id="tooltip-max-width"
+            value={tooltiMaxWidth}
+            handleInputChange={updateTooltipMaxWidth}
+          />
           <FormField label="Cursor style">
             <div className="flex gap-1.5">
               <ToggleGroup
@@ -96,16 +93,13 @@ function SelectionTooltip (): JSX.Element {
               )}
             </div>
           </FormField>
-          <FormField htmlFor="tooltip-cursor-width" label="Cursor width">
-            <Input
-              id="tooltip-cursor-width"
-              type="number"
-              max={10}
-              className="sm"
-              value={cursorLineStyleWidth}
-              onInput={(e) => { updateCursorLineStyleWidth(+e.currentTarget.value) }}
-            />
-          </FormField>
+          <NumberInputForm
+            label="Cursor width"
+            id="tooltip-cursor-width"
+            max={10}
+            value={cursorLineStyleWidth}
+            handleInputChange={updateCursorLineStyleWidth}
+          />
         </>
       )}
     </div>

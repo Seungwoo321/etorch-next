@@ -23,11 +23,11 @@ import {
   useYAxisSecondaryOptionStore
 } from '@/store/edit'
 import { TriangleAlert } from 'lucide-react'
-import { DataValue } from '@/lib/definitions';
+import { DataValue } from '@/lib/definitions'
 
-function getUniqueDates(...dataArrays: DataValue[][]) {
-  const allDates = dataArrays.flat().map(item => item.date);
-  return Array.from(new Set<string | number>(allDates));
+function getUniqueDates (...dataArrays: DataValue[][]) {
+  const allDates = dataArrays.flat().map(item => item.date)
+  return Array.from(new Set<string | number>(allDates))
 }
 
 function TimeSeriesChart (): JSX.Element {
@@ -80,31 +80,15 @@ function TimeSeriesChart (): JSX.Element {
   const yAxisSecondaryTickLine = useYAxisSecondaryOptionStore.use.yAxisSecondaryTickLine()
   const yAxisSecondaryColor = useYAxisSecondaryOptionStore.use.yAxisSecondaryColor()
 
-  // const filteredPanelsData = panelsData.filter(item => (item.unit === yAxisUnit && item.code === yAxisDataKey) || (item.unit === yAxisSecondaryUnit && item.code === yAxisSecondaryDataKey))
-
-  // if (panelsData.length === 0) {
-  //   return (
-  //     <div className="flex items-center h-full m-auto gap-2">
-  //       <TriangleAlert /> No data
-  //     </div>
-  //   )
-  // }
-  // if (!xAxisDataKey || (!(yAxisDataKey && yAxisUnit) && !(yAxisSecondaryDataKey && yAxisSecondaryUnit))) {
-  //   return (
-  //     <div className="flex items-center h-full m-auto gap-2">
-  //       <TriangleAlert /> Please check the X and Y axis settings.
-  //     </div>
-  //   )
-  // }
   const chartData = rawData.reduce((acc, cur) => {
-    const { unit, code } = cur[0];
+    const { unit, code } = cur[0]
     const addToChartData = (unitCheck: string, dataKey: string, yAxisId: number) => {
-      if (unit === unitCheck && dataKey !== '') {
-        acc.push({ code, yAxisId });
+      if (unit === unitCheck && dataKey === code) {
+        acc.push({ code, yAxisId })
       }
-    };
-    addToChartData(yAxisUnit, yAxisDataKey, 1);
-    addToChartData(yAxisSecondaryUnit, yAxisSecondaryDataKey, 2);
+    }
+    addToChartData(yAxisUnit, yAxisDataKey, 1)
+    addToChartData(yAxisSecondaryUnit, yAxisSecondaryDataKey, 2)
     return acc
   }, [])
 
@@ -150,6 +134,7 @@ function TimeSeriesChart (): JSX.Element {
           minTickGap={5}
           yAxisId={1}
         />
+
         <YAxis
           label={{ value: yAxisSecondaryUnit, position: 'insideTopRight', offset: 20, angle: -90 }}
           hide={!yAxisSecondaryVisibility}
@@ -167,6 +152,7 @@ function TimeSeriesChart (): JSX.Element {
           yAxisId={2}
           orientation="right"
         />
+      
 
         {chartData.map((item) => (
           <Line

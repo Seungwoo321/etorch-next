@@ -28,10 +28,18 @@ const initialLegendOptionState: LegendOptionStoreState = {
 
 export const useLegendOptionStoreBase = create<LegendOptionStore>(set => ({
   ...initialLegendOptionState,
-  updateLegendVisibility: (legendVisibility) => { set(() => ({ legendVisibility })) },
-  updateLegendLayout: (legendLayout) => { set(() => ({ legendLayout })) },
-  updateLegendAlign: (legendAlign) => { set(() => ({ legendAlign })) },
-  updateLegendVerticalAlign: (legendVerticalAlign) => { set(() => ({ legendVerticalAlign })) }
+  updateLegendVisibility: (legendVisibility) => {
+    set(() => ({ legendVisibility }))
+  },
+  updateLegendLayout: (legendLayout) => {
+    set(() => ({ legendLayout }))
+  },
+  updateLegendAlign: (legendAlign) => {
+    set(() => ({ legendAlign }))
+  },
+  updateLegendVerticalAlign: (legendVerticalAlign) => {
+    set(() => ({ legendVerticalAlign }))
+  }
 }))
 
 export const useLegendOptionStore = createSelectors(useLegendOptionStoreBase)
