@@ -4,7 +4,7 @@ import { memo, useCallback } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 import { useDataQueryStore } from '@/store/edit'
 
-function QueryOptionAddButton() {
+function QueryOptionAddButton () {
   const addItem = useDataQueryStore.use.addItem()
   const handleAddPanel = useCallback(() => {
     const id = uuidv4()

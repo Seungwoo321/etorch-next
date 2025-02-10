@@ -1,20 +1,20 @@
-import { IndicatorValues, DataValue, QueryOption } from '@/lib/definitions'
+import { TIndicatorValues, TDataValue, TQueryOption } from '@/lib/definitions'
 import { create } from 'zustand'
 import createSelectors from '@/lib/createSelectors'
 
 type DataQueryStoreState = {
-  items: QueryOption[]
-  indicators: IndicatorValues
-  rawData: DataValue[][]
-  mergedData: DataValue[];
+  items: TQueryOption[]
+  indicators: TIndicatorValues
+  rawData: TDataValue[][]
+  mergedData: TDataValue[];
 }
 
 type DataQueryStoreAction = {
-  addItem: (item: QueryOption) => void;
-  updateItem: (id: string, newItem: Partial<QueryOption>) => void;
+  addItem: (item: TQueryOption) => void;
+  updateItem: (id: string, newItem: Partial<TQueryOption>) => void;
   removeItem: (id: string) => void;
-  setIndicators: (Indicators: IndicatorValues) => void;
-  addRawData: (dataValues: DataValue[]) => void;
+  setIndicators: (Indicators: TIndicatorValues) => void;
+  addRawData: (dataValues: TDataValue[]) => void;
   removeRawData: (code: string) => void
 }
 
@@ -66,8 +66,8 @@ const useDataQueryStoreBase = create<DataQueryStore>()((set) => ({
     }))
   }
 }))
-function mergeDatasets (rawData: DataValue[][]): DataValue[] {
-  const merged: Record<string, DataValue> = {}
+function mergeDatasets (rawData: TDataValue[][]): TDataValue[] {
+  const merged: Record<string, TDataValue> = {}
   rawData.forEach((dataValues) => {
     dataValues.forEach(({ date, code, value }) => {
       merged[date] = {

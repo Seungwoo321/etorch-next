@@ -2,7 +2,7 @@ import { Badge } from '@/components/ui/badge'
 import { useDataQueryStore } from '@/store/edit'
 import { Database } from 'lucide-react'
 
-function DataQueryTabTitle() {
+function DataQueryTabTitle () {
   const items = useDataQueryStore.use.items()
   return (
     <>

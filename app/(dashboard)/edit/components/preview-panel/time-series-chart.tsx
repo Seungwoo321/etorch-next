@@ -22,13 +22,6 @@ import {
   useYAxisOptionStore,
   useYAxisSecondaryOptionStore
 } from '@/store/edit'
-import { TriangleAlert } from 'lucide-react'
-import { DataValue } from '@/lib/definitions'
-
-function getUniqueDates (...dataArrays: DataValue[][]) {
-  const allDates = dataArrays.flat().map(item => item.date)
-  return Array.from(new Set<string | number>(allDates))
-}
 
 function TimeSeriesChart (): JSX.Element {
   const rawData = useDataQueryStore.use.rawData()
@@ -152,7 +145,6 @@ function TimeSeriesChart (): JSX.Element {
           yAxisId={2}
           orientation="right"
         />
-      
 
         {chartData.map((item) => (
           <Line

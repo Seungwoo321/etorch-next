@@ -31,7 +31,7 @@ function SelectForm ({
 }: SelectFormProps) {
   let selectedValue
   const values = options.map(option => option.value)
-  if (value && value !== '' && values.includes(value))  {
+  if (value && value !== '' && values.includes(value)) {
     selectedValue = value
   }
   return (

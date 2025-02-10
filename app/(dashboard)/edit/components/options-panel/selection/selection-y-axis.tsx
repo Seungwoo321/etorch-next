@@ -2,7 +2,7 @@ import { useCallback, useMemo } from 'react'
 import {
   useDataQueryStore,
   useYAxisOptionStore,
-  useYAxisSecondaryOptionStore,
+  useYAxisSecondaryOptionStore
 } from '@/store/edit'
 import NumberInputForm from '../form/number-input-form'
 import SwitchForm from '../form/switch-form'

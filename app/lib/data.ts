@@ -1,5 +1,5 @@
-import { DataValue, Indicator, IndicatorValues } from '@/lib/definitions'
-export async function fetchIndicatorByOrigin (origin: string, frequency: string): Promise<Indicator[]> {
+import { TDataValue, IIndicator, TIndicatorValues } from '@/lib/definitions'
+export async function fetchIndicatorByOrigin (origin: string, frequency: string): Promise<IIndicator[]> {
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/v1/indicators/${origin}/${frequency}`)
     const data = await res.json()
@@ -9,11 +9,11 @@ export async function fetchIndicatorByOrigin (origin: string, frequency: string)
     throw new Error('Failed to fetch indicator by origin.')
   }
 }
-export async function fetchAllIndicatorsByFrequency (frequency: string): Promise<IndicatorValues> {
+export async function fetchAllIndicatorsByFrequency (frequency: string): Promise<TIndicatorValues> {
   const origins = ['kosis', 'ecos', 'oecd']
   try {
     const indicators = await Promise.all(origins.map(origin => fetchIndicatorByOrigin(origin, frequency)))
-    return Object.fromEntries(origins.map((origin, index) => [origin, indicators[index]])) as IndicatorValues
+    return Object.fromEntries(origins.map((origin, index) => [origin, indicators[index]])) as TIndicatorValues
   } catch (error) {
     console.error('API Call Error:', error)
     throw new Error('Failed to fetch all indicators')
@@ -35,7 +35,7 @@ export async function fetchIndicatorValues ({
     to: string,
     from: string
   }
-}): Promise<DataValue[]> {
+  }): Promise<TDataValue[]> {
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/v1/indicators/${origin}/code/${code}/${frequency}?from=${from}&to=${to}`)
     const data = await res.json()

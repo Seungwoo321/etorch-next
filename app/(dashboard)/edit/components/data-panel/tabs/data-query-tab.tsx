@@ -1,4 +1,3 @@
-
 import { memo } from 'react'
 import { useDataQueryStore } from '@/store/edit'
 import QueryOptionCard from '../query-option/query-option-card'
@@ -11,8 +10,8 @@ function DataQueryTab () {
       <div className="grid gap-4">
         {items.map(item => (
           <QueryOptionCard
-            option={item}
             key={item.id}
+            {...item}
           />
         ))}
       </div>

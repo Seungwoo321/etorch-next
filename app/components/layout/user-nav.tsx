@@ -26,7 +26,7 @@ interface UserNavProps {
   }
 }
 
-export function UserNav({ userData }: UserNavProps): JSX.Element {
+export function UserNav ({ userData }: UserNavProps): JSX.Element {
   const supabase = createClient()
   const router = useRouter()
   const handleLogout = async () => {

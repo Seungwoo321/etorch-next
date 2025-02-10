@@ -1,8 +1,6 @@
 import { useCallback, useMemo } from 'react'
 import {
   useDataQueryStore,
-  useYAxisOptionStore,
-  useYAxisSecondaryOptionStore,
   useXAxisOptionStore
 } from '@/store/edit'
 import NumberInputForm from '../form/number-input-form'

@@ -8,14 +8,12 @@ import {
   useGlobalOptionStore
 } from '@/store/edit'
 import { memo, useCallback } from 'react'
-import { QueryOption } from '@/lib/definitions'
+import { TQueryOption } from '@/lib/definitions'
 import QueryOptionRemoveButton from './query-option-remove-button'
 import QueryOptionSelect from './query-option-select'
 import { fetchIndicatorValues } from '@/lib/data'
 
-interface QueryOptionCardProps {
-  option: QueryOption
-}
+type QueryOptionCardProps = TQueryOption
 const dataSorceOptions = [
   {
     name: 'KOSIS',
@@ -30,7 +28,8 @@ const dataSorceOptions = [
     value: 'oecd'
   }
 ]
-function QueryOptionCard ({ option }: QueryOptionCardProps) {
+function QueryOptionCard ({ id, origin, code }: QueryOptionCardProps) {
+  const option = { id, origin, code }
   const frequency = useGlobalOptionStore.use.frequency()
   const timeRagne = useGlobalOptionStore.use.timeRagne()
   const indicators = useDataQueryStore.use.indicators()

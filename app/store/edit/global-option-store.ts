@@ -1,22 +1,17 @@
 import { create } from 'zustand'
 import createSelectors from '@/lib/createSelectors'
-import { Frequency } from '@/lib/definitions'
-
-type TimeRange = {
-  to: string,
-  from: string
-}
+import { TFrequency, TTimeRange } from '@/lib/definitions'
 
 type GlobalOptionStoreState = {
-  frequency: Frequency
+  frequency: TFrequency
   isTableView: boolean
-  timeRagne: TimeRange
+  timeRagne: TTimeRange
 }
 
 type GlobalOptionStoreAction = {
-  setFrequency: (frequency: Frequency) => void;
+  setFrequency: (frequency: TFrequency) => void;
   setIsTableView: (isTableView: boolean) => void;
-  setTimeRange: (timeRange: TimeRange) => void;
+  setTimeRange: (timeRange: TTimeRange) => void;
 }
 
 export type GlobalOptionStore = GlobalOptionStoreState & GlobalOptionStoreAction
@@ -42,7 +37,7 @@ const useGlobalOptionStoreBase = create<GlobalOptionStore>()((set) => ({
       isTableView
     }))
   },
-  setTimeRange: (timeRange: TimeRange) => {
+  setTimeRange: (timeRange: TTimeRange) => {
     set(() => ({
       timeRagne: timeRange
     }))

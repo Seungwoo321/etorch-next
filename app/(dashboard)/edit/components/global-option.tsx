@@ -27,7 +27,6 @@ function GlobalOption () {
       if (!ignore) {
         setIndicators(indicators)
       }
-      
     }
     fetchData()
     return () => {

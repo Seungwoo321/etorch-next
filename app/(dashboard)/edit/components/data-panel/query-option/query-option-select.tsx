@@ -7,13 +7,13 @@ import {
   SelectValue
 } from '@/components/ui/select'
 import { Label } from '@/components/ui/label'
-
+import { TDataSourceOption } from '@/lib/definitions'
 type QueryOptionSelectProps = {
   className: string
   labelName: string
   value: string
-  options: any[]
-  formatter?: (value: any) => string
+  options: { name: string, value: string }[]
+  formatter?: (value: TDataSourceOption) => string
   onQueryOptionChange: (value: string) => void
   disabled?: boolean
   selectedValues?: string[]

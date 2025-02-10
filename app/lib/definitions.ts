@@ -1,4 +1,4 @@
-export interface Indicator {
+export interface IIndicator {
   origin: string
   name: string
   description: string
@@ -11,32 +11,42 @@ export interface Indicator {
   hasDay: boolean
 }
 
-export type DataValue = Record<string, string | number>
+export type TDataValue = Record<string, string | number>
 
-export interface IndicatorValuesParamss {
+export interface IIndicatorValuesParamss {
   origin: string
   code: string
   frequency: string
 }
 
-export type IndicatorValues = {
-  [key: string]: Indicator[]
+export type TIndicatorValues = {
+  [key: string]: IIndicator[]
 }
 
-export interface DataPanelItem {
+export interface IDataPanelItem {
   id: number
   origin: string
   indicatorCode: string
   frequency: string
   unit: string
-  data: DataValue[]
+  data: TDataValue[]
 }
 
-export type Frequency = 'A' | 'Q' | 'M' | 'D'
+export type TFrequency = 'A' | 'Q' | 'M' | 'D'
 
-export type QueryOption = {
+export type TQueryOption = {
   id: string
   origin: string
   code: string
   unit: string
+}
+
+export type TDataSourceOption = {
+  name: string
+  value: string
+}
+
+export type TTimeRange = {
+  to: string,
+  from: string
 }

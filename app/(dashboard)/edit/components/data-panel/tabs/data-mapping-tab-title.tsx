@@ -1,5 +1,4 @@
-
-function DataMappingTabTitle() {
+function DataMappingTabTitle () {
   return (
     <>
       Data mapping
