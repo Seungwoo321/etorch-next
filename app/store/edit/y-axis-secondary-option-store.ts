@@ -42,7 +42,7 @@ const initialYAxisSecondaryOptionState: YAxisSecondaryOptionStoreState = {
   yAxisSecondaryDomainMax: 'auto',
   yAxisSecondaryAxisLine: true,
   yAxisSecondaryTickLine: true,
-  yAxisSecondaryColor: 'hsl(var(--muted-foreground))'
+  yAxisSecondaryColor: 'var(--muted-foreground)'
 }
 
 export const useYAxisSecondaryOptionStoreBase = create<YAxisSecondaryOptionStore>(set => ({

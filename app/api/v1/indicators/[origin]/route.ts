@@ -7,9 +7,9 @@ type Params = {
 
 export async function GET (
   request: NextRequest,
-  context: { params: Params }
+  context: { params: Promise<Params> }
 ): Promise<NextResponse> {
-  const { origin } = context.params
+  const { origin } = (await context.params)
   if (!origin) {
     return NextResponse.json({ error: 'Origin is required' }, { status: 400 })
   }

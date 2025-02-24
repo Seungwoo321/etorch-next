@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from 'react'
+import { useCallback, useMemo, type JSX } from 'react'
 import {
   useDataQueryStore,
   useYAxisOptionStore,
@@ -59,34 +59,34 @@ function SelectionYAxisOption (): JSX.Element {
   ], [])
 
   return (
-    <div className="space-y-2 pl-2 pr-1">
+    <div className='space-y-2 pl-2 pr-1'>
       <SwitchForm
-        label="Visibility"
-        id="y-axis-visibility"
+        label='Visibility'
+        id='y-axis-visibility'
         checked={yAxisVisibility}
         handleCheckedChange={updateYAxisVisibility}
       />
       <SelectForm
-        label="Unit"
-        id="y-axis-unit"
-        placeholder="Not selectable"
+        label='Unit'
+        id='y-axis-unit'
+        placeholder='Not selectable'
         value={yAxisUnit}
         handleValueChange={updateYAxisUnit}
         options={unitList}
       />
       <SelectForm
-        label="Data key"
-        id="y-axis-data-key"
-        placeholder="Not selectable"
+        label='Data key'
+        id='y-axis-data-key'
+        placeholder='Not selectable'
         value={yAxisDataKey}
         handleValueChange={updateYAxisDataKey}
         options={unitDataKeyList}
         disabledValues={[yAxisSecondaryDataKey]}
       />
       <SelectForm
-        label="Type"
-        id="y-axis-type"
-        defaultValue="category"
+        label='Type'
+        id='y-axis-type'
+        defaultValue='category'
         value={yAxisType}
         handleValueChange={useCallback((value: string) => {
           if (value === 'category' || value === 'number') {
@@ -102,14 +102,14 @@ function SelectionYAxisOption (): JSX.Element {
       {yAxisType === 'number' && (
         <>
           <NumberInputForm
-            label="Min"
-            id="y-axis-domain-min"
+            label='Min'
+            id='y-axis-domain-min'
             value={yAxisDomainMin}
             handleInputChange={updateYAxisDomainMin}
           />
           <NumberInputForm
-            label="Max"
-            id="y-axis-domain-max"
+            label='Max'
+            id='y-axis-domain-max'
             value={yAxisDomainMax}
             handleInputChange={updateYAxisDomainMax}
             useAuto
@@ -117,30 +117,30 @@ function SelectionYAxisOption (): JSX.Element {
         </>
       )}
       <SwitchForm
-        label="Show Axis"
-        id="y-axis-axis-line"
+        label='Show Axis'
+        id='y-axis-axis-line'
         checked={yAxisAxisLine}
         handleCheckedChange={updateYAxisAxisLine}
       />
       {yAxisType === 'number' && (
         <NumberInputForm
-          label="Tick Count"
-          id="y-axis-tick-count"
+          label='Tick Count'
+          id='y-axis-tick-count'
           min={2}
           value={yAxisTickCount}
           handleInputChange={updateYAxisTickCount}
         />
       )}
       <SwitchForm
-        label="Show Tick"
-        id="y-axis-tick-line"
+        label='Show Tick'
+        id='y-axis-tick-line'
         checked={yAxisTickLine}
         handleCheckedChange={updateYAxisTickLine}
       />
       {yAxisTickLine && (
         <NumberInputForm
-          label="Tick Size"
-          id="y-axis-tick-size"
+          label='Tick Size'
+          id='y-axis-tick-size'
           max={10}
           value={yAxisTickSize}
           handleInputChange={updateYAxisTickSize}

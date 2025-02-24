@@ -7,7 +7,7 @@ function DataQueryTab () {
   const items = useDataQueryStore.use.items()
   return (
     <>
-      <div className="grid gap-4">
+      <div className='grid gap-4'>
         {items.map(item => (
           <QueryOptionCard
             key={item.id}
@@ -15,7 +15,7 @@ function DataQueryTab () {
           />
         ))}
       </div>
-      <QueryOptionAddButton/>
+      <QueryOptionAddButton />
     </>
   )
 }

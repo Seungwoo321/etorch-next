@@ -21,18 +21,18 @@ const GoogleLoginButton = () => {
 
   return (
     <Button
-      className="p-0 w-full justify-normal h-[45px] rounded-lg"
-      variant={'outline'}
+      className='p-0 w-full justify-normal h-[45px] rounded-lg'
+      variant='outline'
       onClick={signInWithGoogle}
     >
       <Image
-        src="/images/g-logo.png"
-        alt="Sign in with Google"
+        src='/images/g-logo.png'
+        alt='Sign in with Google'
         width={30}
         height={30}
-        className="rounded-lg ml-2"
+        className='rounded-lg ml-2'
       />
-      <div className="w-full flex justify-center mr-5">
+      <div className='w-full flex justify-center mr-5'>
         {/* Sign in with Google */}
         Google 계정으로 로그인
       </div>

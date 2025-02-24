@@ -22,6 +22,7 @@ import {
   useYAxisOptionStore,
   useYAxisSecondaryOptionStore
 } from '@/store/edit'
+import React, { JSX } from 'react'
 
 function TimeSeriesChart (): JSX.Element {
   const rawData = useDataQueryStore.use.rawData()
@@ -86,14 +87,14 @@ function TimeSeriesChart (): JSX.Element {
   }, [])
 
   return (
-    <ResponsiveContainer className={isTransparentBackground ? '' : 'bg-primary-foreground'} width="100%" height="100%" minHeight={0} minWidth={0}>
+    <ResponsiveContainer className={isTransparentBackground ? '' : 'bg-primary-foreground'} width='100%' height='100%' minHeight={0} minWidth={0}>
       <ComposedChart width={200} height={300} data={mregedData} margin={{ top: 24, right: 20, bottom: 8, left: 0 }}>
 
         <CartesianGrid
-          vertical={true}
-          horizontal={true}
-          stroke="hsl(var(--muted))"
-          strokeDasharray="0"
+          vertical
+          horizontal
+          stroke='var(--muted)'
+          strokeDasharray='0'
         />
 
         <XAxis
@@ -107,8 +108,8 @@ function TimeSeriesChart (): JSX.Element {
           tickSize={xAxisTickSize}
           tickLine={xAxisTickLine}
           axisLine={xAxisAxisLine}
-          allowDecimals={true}
-          allowDataOverflow={true}
+          allowDecimals
+          allowDataOverflow
         />
 
         <YAxis
@@ -122,8 +123,8 @@ function TimeSeriesChart (): JSX.Element {
           tickSize={yAxisTickSize}
           tickLine={yAxisTickLine}
           axisLine={yAxisAxisLine}
-          allowDecimals={true}
-          allowDataOverflow={true}
+          allowDecimals
+          allowDataOverflow
           minTickGap={5}
           yAxisId={1}
         />
@@ -139,19 +140,19 @@ function TimeSeriesChart (): JSX.Element {
           tickSize={yAxisSecondaryTickSize}
           tickLine={yAxisSecondaryTickLine}
           axisLine={yAxisSecondaryAxisLine}
-          allowDecimals={true}
-          allowDataOverflow={true}
+          allowDecimals
+          allowDataOverflow
           minTickGap={5}
           yAxisId={2}
-          orientation="right"
+          orientation='right'
         />
 
         {chartData.map((item) => (
           <Line
             key={`line-${item.code}`}
-            type="monotone"
+            type='monotone'
             dataKey={item.code}
-            stroke={'rgb(115, 191, 105)'}
+            stroke='rgb(115, 191, 105)'
             yAxisId={item.yAxisId}
           />
         ))}
@@ -211,7 +212,7 @@ function TimeSeriesChart (): JSX.Element {
 
         <Tooltip
           active={tooltipMode === 'default' ? undefined : (tooltipMode === 'active')}
-          cursor={{ stroke: 'hsl(var(--muted-foreground))', strokeWidth: cursorLineStyleWidth, strokeDasharray: cursorLineStyle === 'dash' ? cursorLineStyleDasharray : '' }}
+          cursor={{ stroke: 'var(--muted-foreground)', strokeWidth: cursorLineStyleWidth, strokeDasharray: cursorLineStyle === 'dash' ? cursorLineStyleDasharray : '' }}
           content={<CustomTooltip />}
         />
       </ComposedChart>
@@ -229,23 +230,23 @@ const CustomTooltip: React.FC<CustomTooltipProps> = ({ active, payload, label }:
   const maxWidth = useTooltipOptionStore.use.tooltiMaxWidth()
   if (active === true && payload?.length != null) {
     return (
-      <div className="flex flex-col bg-background border-[1px] border-solid border-[rgba(204, 204, 220, 0.2)] overflow-hidden" style={{ width: `${maxWidth}px` }}>
-        <div className="flex flex-col flex-1 p-2">
-          <div className="flex items-center">
-            <div className="text-ellipsis overflow-hidden cursor-pointer">
+      <div className='flex flex-col bg-background border-[1px] border-solid border-[rgba(204, 204, 220, 0.2)] overflow-hidden' style={{ width: `${maxWidth}px` }}>
+        <div className='flex flex-col flex-1 p-2'>
+          <div className='flex items-center'>
+            <div className='text-ellipsis overflow-hidden cursor-pointer'>
               {label}
             </div>
           </div>
         </div>
 
-        <div className="flex flex-col flex-1 gap-1 border-t-[1px] border-solid border-[rgba(204, 204, 220, 0.2)] p-2">
+        <div className='flex flex-col flex-1 gap-1 border-t-[1px] border-solid border-[rgba(204, 204, 220, 0.2)] p-2'>
           {payload.map((item, index) => (
-            <div className="flex items-start justify-between mr-0" key={`${index}-${item.name}-${item.value}`}>
-              <div className="flex items-center">
+            <div className='flex items-start justify-between mr-0' key={`${index}-${item.name}-${item.value}`}>
+              <div className='flex items-center'>
                 {item.name}
               </div>
-              <div className="flex items-center">
-                <div className="text-ellipsis overflow-hidden cursor-pointer whitespace-normal break-words">
+              <div className='flex items-center'>
+                <div className='text-ellipsis overflow-hidden cursor-pointer whitespace-normal break-words'>
                   {item.value}
                 </div>
               </div>

@@ -68,20 +68,20 @@ function QueryOptionCard ({ id, origin, code }: QueryOptionCardProps) {
   const selectedCodes = items.filter(item => item.code !== '').map(item => item.code)
   return (
     <Card>
-      <CardContent className="pt-6">
-        <div className="relative md:flex flex-col">
-          <div className="grid gap-6">
-            <div className="grid md:grid-cols-[3fr,8fr,1fr] gap-2">
+      <CardContent className='pt-6'>
+        <div className='relative md:flex flex-col'>
+          <div className='grid gap-6'>
+            <div className='grid md:grid-cols-12 gap-2'>
               <QueryOptionSelect
-                className="grid gap-3"
-                labelName="Data source"
+                className='grid col-span-3 gap-3'
+                labelName='Data source'
                 value={option.origin}
                 options={dataSorceOptions}
                 onQueryOptionChange={handleOriginChange}
               />
               <QueryOptionSelect
-                className="grid gap-3"
-                labelName="Indicator"
+                className='grid col-span-8 gap-3'
+                labelName='Indicator'
                 value={option.code}
                 formatter={(option => `${option.name} (${option.value})`)}
                 options={indicatorsOptions}
@@ -89,7 +89,7 @@ function QueryOptionCard ({ id, origin, code }: QueryOptionCardProps) {
                 selectedValues={selectedCodes}
               />
               <QueryOptionRemoveButton
-                className="flex items-end"
+                className='flex col-span-1 items-end'
                 cardId={option.id}
                 code={option.code}
               />

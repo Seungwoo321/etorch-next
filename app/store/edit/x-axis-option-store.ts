@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import createSelectors from '../../lib/createSelectors'
+import createSelectors from '@/lib/createSelectors'
 
 type XAxisOptionStoreState = {
   xAxisDataKey: string
@@ -42,7 +42,7 @@ const initialXAxisOptionState: XAxisOptionStoreState = {
   xAxisDomainMax: 'auto',
   xAxisAxisLine: true,
   xAxisTickLine: true,
-  xAxisColor: 'hsl(var(--muted-foreground))'
+  xAxisColor: 'var(--muted-foreground)'
 }
 
 export const useXAxisOptionStoreBase = create<XAxisOptionStore>(set => ({

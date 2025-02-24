@@ -3,10 +3,12 @@ import {
   ToggleGroupItem
 } from '@/components/ui/toggle-group'
 import { useLegendOptionStore } from '@/store/edit'
-import { type LayoutType } from 'recharts/types/util/types'
-import { type VerticalAlignmentType, type HorizontalAlignmentType } from 'recharts/types/component/DefaultLegendContent'
+import type { HorizontalAlignmentType, VerticalAlignmentType } from 'recharts/types/component/DefaultLegendContent'
+import type { LayoutType } from 'recharts/types/util/types'
 import FormField from '@/components/shared/form-field'
 import SwitchForm from '../form/switch-form'
+
+import type { JSX } from 'react'
 
 function SelectionLegend (): JSX.Element {
   const legendVisibility = useLegendOptionStore.use.legendVisibility()
@@ -18,39 +20,39 @@ function SelectionLegend (): JSX.Element {
   const updateLegendAlign = useLegendOptionStore.use.updateLegendAlign()
   const updateLegendVerticalAlign = useLegendOptionStore.use.updateLegendVerticalAlign()
   return (
-    <div className="space-y-2 pl-2 pr-1">
+    <div className='space-y-2 pl-2 pr-1'>
       <SwitchForm
-        label="Visibility"
-        id="legend-visibility"
+        label='Visibility'
+        id='legend-visibility'
         checked={legendVisibility}
         handleCheckedChange={updateLegendVisibility}
       />
-      <div className="grid w-full max-w-sm items-center gap-1.5">
+      <div className='grid w-full max-w-sm items-center gap-1.5'>
         <span>Layout</span>
         <ToggleGroup
-          className="justify-start"
-          type="single"
-          variant="outline"
+          className='justify-start'
+          type='single'
+          variant='outline'
           value={legendLayout}
           onValueChange={(value: LayoutType) => {
             if (value.length > 0) updateLegendLayout(value)
             if (value === 'horizontal' && legendVerticalAlign === 'middle') updateLegendAlign('center')
           }}
         >
-          <ToggleGroupItem value="vertical" aria-label="Toggle vertical">
+          <ToggleGroupItem value='vertical' aria-label='Toggle vertical'>
             Vertical
           </ToggleGroupItem>
-          <ToggleGroupItem value="horizontal" aria-label="Toggle horizontal">
+          <ToggleGroupItem value='horizontal' aria-label='Toggle horizontal'>
             Horizontal
           </ToggleGroupItem>
         </ToggleGroup>
       </div>
-      <div className="grid w-full max-w-sm items-center gap-1.5">
+      <div className='grid w-full max-w-sm items-center gap-1.5'>
         <span>Horizontal Align</span>
         <ToggleGroup
-          className="justify-start"
-          type="single"
-          variant="outline"
+          className='justify-start'
+          type='single'
+          variant='outline'
           value={legendAlign}
           onValueChange={(value: HorizontalAlignmentType) => {
             if (value === 'left' || value === 'center' || value === 'right') {
@@ -59,27 +61,21 @@ function SelectionLegend (): JSX.Element {
           }}
         >
           {(legendLayout !== 'horizontal' || legendVerticalAlign !== 'middle')
-            ? (<ToggleGroupItem value="left" aria-label="Toggle left">
-            Left
-            </ToggleGroupItem>)
-            : null
-          }
-          <ToggleGroupItem value="center" aria-label="Toggle center">
+            ? <ToggleGroupItem value='left' aria-label='Toggle left'>Left</ToggleGroupItem>
+            : null}
+          <ToggleGroupItem value='center' aria-label='Toggle center'>
             Center
           </ToggleGroupItem>
           {(legendLayout !== 'horizontal' || legendVerticalAlign !== 'middle')
-            ? (<ToggleGroupItem value="right" aria-label="Toggle right">
-              Right
-            </ToggleGroupItem>)
-            : null
-          }
+            ? <ToggleGroupItem value='right' aria-label='Toggle right'>Right</ToggleGroupItem>
+            : null}
         </ToggleGroup>
       </div>
-      <FormField label="Vertical Alig">
+      <FormField label='Vertical Alig'>
         <ToggleGroup
-          className="justify-start"
-          type="single"
-          variant="outline"
+          className='justify-start'
+          type='single'
+          variant='outline'
           value={legendVerticalAlign}
           onValueChange={(value: VerticalAlignmentType) => {
             if (value === 'top' || value === 'bottom' || value === 'middle') {
@@ -88,13 +84,13 @@ function SelectionLegend (): JSX.Element {
             if (legendLayout === 'horizontal' && value === 'middle') updateLegendAlign('center')
           }}
         >
-          <ToggleGroupItem value="top" aria-label="Toggle top">
+          <ToggleGroupItem value='top' aria-label='Toggle top'>
             Top
           </ToggleGroupItem>
-          <ToggleGroupItem value="middle" aria-label="Toggle middle">
+          <ToggleGroupItem value='middle' aria-label='Toggle middle'>
             Middle
           </ToggleGroupItem>
-          <ToggleGroupItem value="bottom" aria-label="Toggle bottom">
+          <ToggleGroupItem value='bottom' aria-label='Toggle bottom'>
             Bottom
           </ToggleGroupItem>
         </ToggleGroup>

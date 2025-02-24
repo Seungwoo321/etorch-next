@@ -18,6 +18,8 @@ import {
 import { useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 
+import type { JSX } from 'react'
+
 interface UserNavProps {
   userData: {
     email: string | undefined
@@ -41,19 +43,19 @@ export function UserNav ({ userData }: UserNavProps): JSX.Element {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" className="relative h-8 w-8 rounded-full">
-          <Avatar className="h-8 w-8">
+        <Button variant='ghost' className='relative h-8 w-8 rounded-full'>
+          <Avatar className='h-8 w-8'>
             {userData.avatarUrl
               ? (<AvatarImage src={userData.avatarUrl} alt={`@${userData.name}`} />)
               : (<AvatarFallback>{userData.name.substring(0, 2)}</AvatarFallback>)}
           </Avatar>
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-56" align="end" forceMount>
-        <DropdownMenuLabel className="font-normal">
-          <div className="flex flex-col space-y-1">
-            <p className="text-sm font-medium leading-none">{userData.name}</p>
-            <p className="text-xs leading-none text-muted-foreground">
+      <DropdownMenuContent className='w-56' align='end' forceMount>
+        <DropdownMenuLabel className='font-normal'>
+          <div className='flex flex-col space-y-1'>
+            <p className='text-sm font-medium leading-none'>{userData.name}</p>
+            <p className='text-xs leading-none text-muted-foreground'>
               {userData.email}
             </p>
           </div>

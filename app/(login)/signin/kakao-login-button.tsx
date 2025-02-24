@@ -21,16 +21,16 @@ const KakaoLoginButton = () => {
 
   return (
     <Button
-      className="p-0 w-full bg-transparent h-[45px] hover:bg-[#FEE500] rounded-lg"
+      className='p-0 w-full bg-transparent h-[45px] hover:bg-[#FEE500] rounded-lg'
       onClick={signInWithKakao}
     >
       <Image
         // src="/images/kakao_login_large_wide.png"
-        src="/images/kakao_login_ko.png"
-        alt="카카오 로그인"
+        src='/images/kakao_login_ko.png'
+        alt='카카오 로그인'
         width={300}
         height={45}
-        className="rounded-lg"
+        className='rounded-lg'
       />
     </Button>
   )

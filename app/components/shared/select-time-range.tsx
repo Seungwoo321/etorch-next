@@ -79,19 +79,19 @@ function SelectTimeRange () {
       defaultValue={selectItem?.value}
       value={selectItem?.value || 'absolute'}
     >
-      <SelectTrigger className="w-full h-7" >
+      <SelectTrigger className='w-full h-7'>
         <SelectValue asChild>
-          <div className="flex items-center">
-            <span className="mr-2">
+          <div className='flex items-center'>
+            <span className='mr-2'>
               <Clock size={16} />
             </span>
             {selectLabel}
           </div>
         </SelectValue>
       </SelectTrigger>
-      <SelectContent align="end">
+      <SelectContent align='end'>
         <div className='flex justify-end gap-2'>
-          <div className="space-y-2 p-2">
+          <div className='space-y-2 p-2'>
             <DatePickerWithRange
               date={date}
               rangeValue={selectItem?.value}
@@ -105,12 +105,12 @@ function SelectTimeRange () {
               Apply this range
             </Button>
           </div>
-          <Separator className="h-100 items-center" orientation="vertical" />
-          <ScrollArea className="w-full h-min-0 rounded-xl">
+          <Separator className='h-100 items-center' orientation='vertical' />
+          <ScrollArea className='w-full h-min-0 rounded-xl'>
             <div className='h-[180px]'>
               <SelectItem
                 disabled
-                value="absolute"
+                value='absolute'
               >
                 Absolute time range
               </SelectItem>

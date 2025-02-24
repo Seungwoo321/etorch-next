@@ -1,6 +1,6 @@
 import { Plus } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { memo, useCallback } from 'react'
+import React, { memo, useCallback } from 'react'
 import { v4 as uuidv4 } from 'uuid'
 import { useDataQueryStore } from '@/store/edit'
 
@@ -17,11 +17,11 @@ function QueryOptionAddButton () {
   }, [])
   return (
     <Button
-      className="rounded-xl w-full"
-      type="button"
+      className='rounded-xl w-full'
+      type='button'
       onClick={handleAddPanel}
     >
-      <Plus className="mr-2" />
+      <Plus className='mr-2' />
       Add Query
     </Button>
   )

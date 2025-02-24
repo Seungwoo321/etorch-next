@@ -1,5 +1,5 @@
 'use client'
-import { type ReactElement, useState } from 'react'
+import { type ReactElement, useState, type JSX } from 'react'
 import {
   ChartSpline,
   ChartNoAxesColumn,
@@ -20,7 +20,7 @@ import {
 import React from 'react'
 
 interface Visualization {
-  icon: ReactElement
+  icon: ReactElement<unknown>
   value: string
   label: string
   description: string
@@ -83,15 +83,15 @@ function VisualizationsSelect (): JSX.Element {
     <Select
       onValueChange={setSelectedVisualization}
       value={selectedVisualization}
-      defaultValue={'timeseries'}
+      defaultValue='timeseries'
     >
-      <SelectTrigger className="w-full h-7" >
+      <SelectTrigger className='w-full h-7'>
         <SelectValue asChild>
-          <div className="flex justify-between items-center">
-            <span className="mr-2">
+          <div className='flex justify-between items-center'>
+            <span className='mr-2'>
               {React.cloneElement(visualizations.find(visualization => visualization.value === selectedVisualization)?.icon ?? <></>, { size: 16 })}
             </span>
-            <div className="p-1">
+            <div className='p-1'>
               {visualizations.find(visualization => visualization.value === selectedVisualization)?.label}
             </div>
           </div>
@@ -104,16 +104,16 @@ function VisualizationsSelect (): JSX.Element {
             value={visualization.value}
           >
             <div
-              className="flex space-x-2 m-2"
+              className='flex space-x-2 m-2'
             >
               <div>
                 {visualization.icon}
               </div>
               <div>
-                <p className="text-sm font-medium leading-none">
+                <p className='text-sm font-medium leading-none'>
                   {visualization.label}
                 </p>
-                <p className="text-sm text-muted-foreground">
+                <p className='text-sm text-muted-foreground'>
                   {visualization.description}
                 </p>
               </div>

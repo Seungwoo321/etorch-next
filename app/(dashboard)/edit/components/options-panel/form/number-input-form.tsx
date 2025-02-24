@@ -28,8 +28,8 @@ function NumberInputForm ({
     >
       <Input
         id={id}
-        className="sm"
-        type="number"
+        className='sm'
+        type='number'
         min={min}
         max={max}
         placeholder={useAuto ? 'auto' : undefined}

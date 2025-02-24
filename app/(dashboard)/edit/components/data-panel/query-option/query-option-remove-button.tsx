@@ -21,7 +21,7 @@ function QueryOptionRemoveButton ({ className, cardId, code }: QueryOptionRemove
         onClick={handleRemoveItem}
       >
         <Trash2
-          className="cursor-pointer"
+          className='cursor-pointer'
         />
       </Button>
     </div>

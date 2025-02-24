@@ -7,6 +7,7 @@ import GlobalOption from './components/global-option'
 import DataPanel from './components/data-panel/data-panel'
 import OptionsPanel from './components/options-panel/options-panel'
 import PreviewPanel from './components/preview-panel/preview-panel'
+import type { JSX } from 'react'
 // import { redirect } from 'next/navigation'
 // import { createClient } from '@/lib/supabase/server'
 export default async function Page (): Promise<JSX.Element> {
@@ -17,27 +18,27 @@ export default async function Page (): Promise<JSX.Element> {
   //   redirect('/login')
   // }
   return (
-    <div className="py-3 h-full">
+    <div className='py-3 h-full'>
       <ResizablePanelGroup
-        direction="horizontal"
+        direction='horizontal'
       >
         <ResizablePanel
           defaultSize={80}
           minSize={50}
         >
           <ResizablePanelGroup
-            direction="vertical"
+            direction='vertical'
           >
             <ResizablePanel
               order={1}
               defaultSize={60}
               minSize={5}
             >
-              <GlobalOption/>
-              <PreviewPanel/>
+              <GlobalOption />
+              <PreviewPanel />
             </ResizablePanel>
             <ResizableHandle
-              className="mt-2 mb-2 p-1"
+              className='mt-2 mb-2 p-1'
               withHandle
             />
             <ResizablePanel
@@ -49,14 +50,14 @@ export default async function Page (): Promise<JSX.Element> {
           </ResizablePanelGroup>
         </ResizablePanel>
         <ResizableHandle
-          className="ml-2 mr-2 w-2"
+          className='ml-2 mr-2 w-2'
           withHandle
         />
         <ResizablePanel
           order={3}
           defaultSize={20}
         >
-          <OptionsPanel/>
+          <OptionsPanel />
         </ResizablePanel>
       </ResizablePanelGroup>
     </div>

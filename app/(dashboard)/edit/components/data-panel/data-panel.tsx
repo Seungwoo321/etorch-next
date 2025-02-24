@@ -1,30 +1,30 @@
 'use client'
-import { memo } from 'react'
+import React, { memo } from 'react'
 import { Tabs, TabsList, TabsTrigger, TabsContent } from '@/components/ui/tabs'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import DataQueryTabTitle from './tabs/data-query-tab-title'
 import DataMappingTabTitle from './tabs/data-mapping-tab-title'
 import DataQueryTab from './tabs/data-query-tab'
 
-function DataPanel (): JSX.Element {
+function DataPanel () {
   return (
     <Tabs
-      className="flex-col flex md:order-2 w-full h-full"
-      defaultValue="query"
+      className='flex-col flex md:order-2 w-full h-full'
+      defaultValue='query'
     >
-      <TabsList className="grid w-full grid-cols-2">
-        <TabsTrigger value="query">
-          <DataQueryTabTitle/>
+      <TabsList className='grid w-full grid-cols-2'>
+        <TabsTrigger value='query'>
+          <DataQueryTabTitle />
         </TabsTrigger>
-        <TabsTrigger value="data-mapping">
-          <DataMappingTabTitle/>
+        <TabsTrigger value='data-mapping'>
+          <DataMappingTabTitle />
         </TabsTrigger>
       </TabsList>
-      <ScrollArea className="h-min-0 rounded-xl">
-        <TabsContent value="query" className="space-y-4">
-          <DataQueryTab/>
+      <ScrollArea className='h-min-0 rounded-xl'>
+        <TabsContent value='query' className='space-y-4'>
+          <DataQueryTab />
         </TabsContent>
-        <TabsContent value="data-mapping">
+        <TabsContent value='data-mapping'>
           {/* <DataPanelDataMapping /> */}
         </TabsContent>
       </ScrollArea>

@@ -39,7 +39,7 @@ function SelectForm ({
       htmlFor={id}
       label={label}
     >
-      <div className="flex gap-1.5">
+      <div className='flex gap-1.5'>
         <Select
           onValueChange={handleValueChange}
           value={selectedValue}

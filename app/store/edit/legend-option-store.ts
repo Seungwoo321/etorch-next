@@ -1,8 +1,9 @@
-import { type VerticalAlignmentType, type HorizontalAlignmentType } from 'recharts/types/component/DefaultLegendContent'
-import { type LayoutType } from 'recharts/types/util/types'
 import { create } from 'zustand'
 import createSelectors from '../../lib/createSelectors'
 
+type LayoutType = 'horizontal' | 'vertical' | 'centric' | 'radial';
+type HorizontalAlignmentType = 'center' | 'left' | 'right';
+type VerticalAlignmentType = 'top' | 'bottom' | 'middle';
 type LegendOptionStoreState = {
   legendVisibility: boolean
   legendLayout: LayoutType

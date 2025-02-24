@@ -12,7 +12,7 @@ function PreviewPanel () {
   return (
     <Card className={`flex flex-col h-[calc(100%-2.5rem)] ${isTransparentBackground ? '' : 'bg-primary-foreground'}`}>
       <PreviewCardHeader />
-      <CardContent className="flex h-[calc(100%-90px)] flex-grow">
+      <CardContent className='flex h-[calc(100%-90px)] flex-grow'>
         <TimeSeriesLineChart />
       </CardContent>
     </Card>

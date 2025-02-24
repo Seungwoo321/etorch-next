@@ -34,36 +34,36 @@ function GlobalOption () {
     }
   }, [frequency])
   return (
-    <div className="flex justify-end py-1 gap-2 p-1">
-      <div className="flex items-center space-x-2 h-7">
+    <div className='flex justify-end py-1 gap-2 p-1'>
+      <div className='flex items-center space-x-2 h-7'>
         <Switch
-          id="tablue-view"
+          id='tablue-view'
           checked={isTableView}
           onCheckedChange={() => setIsTableView(!isTableView)}
         />
-        <Label htmlFor="tablue-view">Table View</Label>
+        <Label htmlFor='tablue-view'>Table View</Label>
       </div>
-      <Separator className="h-100 items-center" orientation="vertical" />
+      <Separator className='h-5 my-auto' orientation='vertical' />
       <div>
-        <SelectTimeRange/>
+        <SelectTimeRange />
       </div>
-      <Separator className="h-100 items-center" orientation="vertical" />
+      <Separator className='h-5 my-auto' orientation='vertical' />
       <Select
-        defaultValue="M"
+        defaultValue='M'
         value={frequency}
         onValueChange={setFrequency}
       >
         <SelectTrigger
-          id="data-frequency"
-          className="h-7 w-[90px]"
+          id='data-frequency'
+          className='h-7 w-[90px]'
         >
           <SelectValue />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value="Y"> 연간 </SelectItem>
-          <SelectItem value="Q"> 분기 </SelectItem>
-          <SelectItem value="M"> 월간 </SelectItem>
-          <SelectItem value="D"> 일간 </SelectItem>
+          <SelectItem value='Y'> 연간 </SelectItem>
+          <SelectItem value='Q'> 분기 </SelectItem>
+          <SelectItem value='M'> 월간 </SelectItem>
+          <SelectItem value='D'> 일간 </SelectItem>
         </SelectContent>
       </Select>
     </div>

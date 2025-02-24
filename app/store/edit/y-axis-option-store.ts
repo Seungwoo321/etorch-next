@@ -42,7 +42,7 @@ const initialYAxisOptionState: YAxisOptionStoreState = {
   yAxisDomainMax: 'auto',
   yAxisAxisLine: true,
   yAxisTickLine: true,
-  yAxisColor: 'hsl(var(--muted-foreground))'
+  yAxisColor: 'var(--muted-foreground)'
 }
 
 export const useYAxisOptionStoreBase = create<YAxisOptionStore>(set => ({

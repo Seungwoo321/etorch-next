@@ -7,7 +7,7 @@ import {
 } from '@/components/ui/popover'
 import { cn } from '@/lib/utils'
 import { Paintbrush } from 'lucide-react'
-import { useState } from 'react'
+import { useState, type JSX } from 'react'
 
 export function PickerExample (): JSX.Element {
   const [background, setBackground] = useState('#B4D455')
@@ -83,29 +83,29 @@ export function ColorPicker ({
     <Popover>
       <PopoverTrigger asChild>
         <Button
-          variant={'outline'}
+          variant='outline'
           className={cn(
             'w-[220px] justify-start text-left font-normal',
             (background.length > 0) && 'text-muted-foreground',
             className
           )}
         >
-          <div className="w-full flex items-center gap-2">
+          <div className='w-full flex items-center gap-2'>
             {background.length > 0
               ? (
-                <div className={`h-4 w-4 rounded !bg-center !bg-cover transition-all bg-[${background}]`}></div>
-              )
+                <div className={`h-4 w-4 rounded !bg-center !bg-cover transition-all bg-[${background}]`} />
+                )
               : (
-                <Paintbrush className="h-4 w-4" />
-              )}
-            <div className="truncate flex-1">
+                <Paintbrush className='h-4 w-4' />
+                )}
+            <div className='truncate flex-1'>
               {background.length > 0 || 'Pick a color'}
             </div>
           </div>
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-64">
-        <div className="flex flex-wrap gap-1 mt-0">
+      <PopoverContent className='w-64'>
+        <div className='flex flex-wrap gap-1 mt-0'>
           {solids.map((color) => (
             <Button
               key={color}
@@ -116,9 +116,9 @@ export function ColorPicker ({
           ))}
         </div>
         <Input
-          id="custom"
+          id='custom'
           value={background}
-          className="col-span-2 h-8 mt-4"
+          className='col-span-2 h-8 mt-4'
           onChange={(e) => { setBackground(e.currentTarget.value) }}
         />
       </PopoverContent>

@@ -12,7 +12,7 @@ function PreviewCardHeader () {
   const description = usePanelOptionStore.use.description()
   if (title === '') return null
   return (
-    <CardHeader className="flex">
+    <CardHeader className='flex'>
       <CardTitle>
         {title}
       </CardTitle>

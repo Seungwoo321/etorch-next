@@ -7,6 +7,7 @@ import {
 } from '@/components/ui/tabs'
 import { useGraphStylesOptionStore } from '@/store/edit'
 import FormField from '@/components/shared/form-field'
+import type { JSX } from 'react'
 function SelectionGraphStyle (): JSX.Element {
   const graphStyle = useGraphStylesOptionStore.use.graphStyle()
   const lineWidth = useGraphStylesOptionStore.use.lineWidth()
@@ -16,25 +17,25 @@ function SelectionGraphStyle (): JSX.Element {
   const updateFillOpacity = useGraphStylesOptionStore.use.updateFillOpacity()
 
   return (
-    <div className="space-y-2 pl-2 pr-1">
-      <FormField label="Style">
+    <div className='space-y-2 pl-2 pr-1'>
+      <FormField label='Style'>
         <Tabs
-          defaultValue="Line"
+          defaultValue='Line'
           value={graphStyle}
-          className="w-full"
+          className='w-full'
           onValueChange={updateGraphStyle}
         >
           <TabsList>
-            <TabsTrigger value="Line">Line</TabsTrigger>
-            <TabsTrigger value="Bar">Bar</TabsTrigger>
-            <TabsTrigger value="Point">Point</TabsTrigger>
+            <TabsTrigger value='Line'>Line</TabsTrigger>
+            <TabsTrigger value='Bar'>Bar</TabsTrigger>
+            <TabsTrigger value='Point'>Point</TabsTrigger>
           </TabsList>
-          <TabsContent value="Line">
-            <div className="grid gap-2 pt-2">
-              <div className="grid gap-2">
-                <div className="flex items-center justify-between">
+          <TabsContent value='Line'>
+            <div className='grid gap-2 pt-2'>
+              <div className='grid gap-2'>
+                <div className='flex items-center justify-between'>
                   <span>Line width</span>
-                  <span className="w-12 rounded-md border border-transparent px-2 py-0.5 text-right text-sm text-muted-foreground hover:border-border">
+                  <span className='w-12 rounded-md border border-transparent px-2 py-0.5 text-right text-sm text-muted-foreground hover:border-border'>
                     {lineWidth}
                   </span>
                 </div>
@@ -48,11 +49,11 @@ function SelectionGraphStyle (): JSX.Element {
               </div>
             </div>
 
-            <div className="grid gap-2 pt-2">
-              <div className="grid gap-2">
-                <div className="flex items-center justify-between">
+            <div className='grid gap-2 pt-2'>
+              <div className='grid gap-2'>
+                <div className='flex items-center justify-between'>
                   <span>Fill opacity</span>
-                  <span className="w-12 rounded-md border border-transparent px-2 py-0.5 text-right text-sm text-muted-foreground hover:border-border">
+                  <span className='w-12 rounded-md border border-transparent px-2 py-0.5 text-right text-sm text-muted-foreground hover:border-border'>
                     {fillOpacity}
                   </span>
                 </div>
@@ -66,12 +67,8 @@ function SelectionGraphStyle (): JSX.Element {
               </div>
             </div>
           </TabsContent>
-          <TabsContent value="Bar">
-
-          </TabsContent>
-          <TabsContent value="Point">
-
-          </TabsContent>
+          <TabsContent value='Bar' />
+          <TabsContent value='Point' />
         </Tabs>
       </FormField>
     </div>

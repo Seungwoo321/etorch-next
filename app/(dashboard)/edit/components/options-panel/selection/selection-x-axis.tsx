@@ -1,4 +1,4 @@
-import { useCallback, useMemo } from 'react'
+import { useCallback, useMemo, JSX } from 'react'
 import {
   useDataQueryStore,
   useXAxisOptionStore
@@ -48,24 +48,24 @@ function SelectionXAxis (): JSX.Element {
   ], [])
 
   return (
-    <div className="space-y-2 pl-2 pr-1">
+    <div className='space-y-2 pl-2 pr-1'>
       <SwitchForm
-        label="Visibility"
-        id="x-axis-visibility"
+        label='Visibility'
+        id='x-axis-visibility'
         checked={xAxisVisibility}
         handleCheckedChange={updateXAxisVisibility}
       />
       <SelectForm
-        label="Data key"
-        id="x-axis-data-key"
-        placeholder="Not selectable"
+        label='Data key'
+        id='x-axis-data-key'
+        placeholder='Not selectable'
         value={xAxisDataKey}
         handleValueChange={updateXAxisDataKey}
         options={xAxisDataKeyList}
       />
       <SelectForm
-        label="Type"
-        id="x-axis-type"
+        label='Type'
+        id='x-axis-type'
         value={xAxisType}
         handleValueChange={useCallback((value: string) => {
           if (value === 'category' || value === 'number') {
@@ -81,14 +81,14 @@ function SelectionXAxis (): JSX.Element {
       {xAxisType === 'number' && (
         <>
           <NumberInputForm
-            label="Min"
-            id="x-axis-domain-min"
+            label='Min'
+            id='x-axis-domain-min'
             value={xAxisDomainMin}
             handleInputChange={updateXAxisDomainMin}
           />
           <NumberInputForm
-            label="Max"
-            id="x-axis-domain-max"
+            label='Max'
+            id='x-axis-domain-max'
             value={xAxisDomainMax}
             handleInputChange={updateXAxisDomainMax}
             useAuto
@@ -96,38 +96,38 @@ function SelectionXAxis (): JSX.Element {
         </>
       )}
       <SwitchForm
-        label="Show Axis"
-        id="x-axis-axis-line"
+        label='Show Axis'
+        id='x-axis-axis-line'
         checked={xAxisAxisLine}
         handleCheckedChange={updateXAxisAxisLine}
       />
       {xAxisType === 'number' && (
         <NumberInputForm
-          label="Tick Count"
-          id="x-axis-tick-count"
+          label='Tick Count'
+          id='x-axis-tick-count'
           min={5}
           value={xAxisTickCount}
           handleInputChange={updateXAxisTickCount}
         />
       )}
       <NumberInputForm
-        label="Tick Angle"
-        id="x-axis-tick-angle"
+        label='Tick Angle'
+        id='x-axis-tick-angle'
         min={0}
         max={360}
         value={xAxisTickAngle}
         handleInputChange={updateXAxisTickAngle}
       />
       <SwitchForm
-        label="Show Tick"
-        id="x-axis-tick-line"
+        label='Show Tick'
+        id='x-axis-tick-line'
         checked={xAxisTickLine}
         handleCheckedChange={updateXAxisTickLine}
       />
       {xAxisTickLine && (
         <NumberInputForm
-          label="Tick Size"
-          id="x-axis-tick-size"
+          label='Tick Size'
+          id='x-axis-tick-size'
           max={10}
           value={xAxisTickSize}
           handleInputChange={updateXAxisTickSize}

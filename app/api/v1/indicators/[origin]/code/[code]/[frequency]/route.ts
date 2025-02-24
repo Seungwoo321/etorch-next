@@ -9,9 +9,9 @@ type Params = {
 
 export async function GET (
   request: NextRequest,
-  context: { params: Params }
+  context: { params: Promise<Params> }
 ): Promise<NextResponse> {
-  const { origin, code, frequency } = context.params
+  const { origin, code, frequency } = (await context.params)
   const query = request.nextUrl.searchParams
   const from = query.get('from')
   const to = query.get('to')
