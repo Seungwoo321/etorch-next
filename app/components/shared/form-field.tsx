@@ -1,10 +1,10 @@
-import React, { type JSX } from 'react'
+import React, { ReactNode, type JSX } from 'react'
 import { Label } from '@/components/ui/label'
 
 interface FormFieldProps {
   htmlFor?: string
   label: string
-  children: React.ReactNode
+  children: ReactNode
 }
 
 function FormField ({ htmlFor, label, children }: FormFieldProps): JSX.Element {

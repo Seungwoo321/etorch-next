@@ -259,4 +259,4 @@ const CustomTooltip: React.FC<CustomTooltipProps> = ({ active, payload, label }:
   }
 }
 
-export default TimeSeriesChart
+export default React.memo(TimeSeriesChart)

@@ -9,6 +9,7 @@ type NumberInputFormProps = {
   useAuto?: boolean
   min?: number
   max?: number
+  hidden?: boolean
   handleInputChange: (value: number) => void
 }
 
@@ -19,8 +20,10 @@ function NumberInputForm ({
   useAuto,
   min,
   max,
+  hidden,
   handleInputChange
 }: NumberInputFormProps) {
+  if (hidden) return null
   return (
     <FormField
       htmlFor={id}

@@ -16,7 +16,8 @@ type SelectFormProps = {
   value: string | undefined
   handleValueChange: (value: string) => void
   options: { value: string, label: string }[]
-  disabledValues?: string[]
+  disabledValues?: string[],
+  hidden?: boolean
 }
 
 function SelectForm ({
@@ -27,8 +28,10 @@ function SelectForm ({
   handleValueChange,
   placeholder,
   disabledValues,
-  defaultValue
+  defaultValue,
+  hidden
 }: SelectFormProps) {
+  if (hidden) return null
   let selectedValue
   const values = options.map(option => option.value)
   if (value && value !== '' && values.includes(value)) {
