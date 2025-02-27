@@ -11,7 +11,7 @@ const links = [
   },
   {
     name: 'Settings',
-    href: '/edit'
+    href: '/setting'
   }
 ]
 

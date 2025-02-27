@@ -14,7 +14,7 @@ import DatePickerWithRange from './date-picker-with-range'
 import { format } from 'date-fns'
 import { DateRange } from 'react-day-picker'
 import { Clock } from 'lucide-react'
-import { useGlobalOptionStore } from '@/store/edit'
+import { useGlobalOptionStore } from '@/store/editor'
 
 const createTimeRangeOptions = (count: number[], unit: string) => {
   return count.map(num => ({

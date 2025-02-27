@@ -21,6 +21,9 @@ const nextConfig = {
   eslint: {
     dirs: ['app']
     // ignoreDuringBuilds: true
+  },
+  experimental: {
+    ppr: 'incremental'
   }
 }
 
