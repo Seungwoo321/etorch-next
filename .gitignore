@@ -37,3 +37,4 @@ next-env.d.ts
 
 # custom
 .history
+backend_bak/node_modules
