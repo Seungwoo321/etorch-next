@@ -10,7 +10,7 @@ import { Label } from '@/components/ui/label'
 import { Switch } from '@/components/ui/switch'
 import { Separator } from '@/components/ui/separator'
 import { useGlobalOptionStore, useDataQueryStore } from '@/store/editor'
-import SelectTimeRange from '@/components/shared/select-time-range'
+import SelectTimeRange from '@/components/shared/select-time-range/index'
 import { useEffect } from 'react'
 import { fetchAllIndicatorsByFrequency } from '@/lib/data'
 
@@ -20,6 +20,7 @@ function GlobalOption () {
   const setFrequency = useGlobalOptionStore.use.setFrequency()
   const setIsTableView = useGlobalOptionStore.use.setIsTableView()
   const setIndicators = useDataQueryStore.use.setIndicators()
+
   useEffect(() => {
     let ignore = false
     const fetchData = async () => {

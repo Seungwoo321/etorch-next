@@ -23,7 +23,10 @@ import {
   useYAxisSecondaryOptionStore
 } from '@/store/editor'
 import React, { JSX, memo } from 'react'
-
+interface ChartDataItem {
+  code: string
+  yAxisId: number
+}
 function ChartArea (): JSX.Element {
   const rawData = useDataQueryStore.use.rawData()
   const mregedData = useDataQueryStore.use.mergedData()
@@ -74,8 +77,8 @@ function ChartArea (): JSX.Element {
   const yAxisSecondaryTickLine = useYAxisSecondaryOptionStore.use.yAxisSecondaryTickLine()
   const yAxisSecondaryColor = useYAxisSecondaryOptionStore.use.yAxisSecondaryColor()
 
-  const chartData = rawData.reduce((acc, cur) => {
-    const { unit, code } = cur[0]
+  const chartData = rawData.reduce<ChartDataItem[]>((acc, cur) => {
+    const { unit, code } = cur
     const addToChartData = (unitCheck: string, dataKey: string, yAxisId: number) => {
       if (unit === unitCheck && dataKey === code) {
         acc.push({ code, yAxisId })

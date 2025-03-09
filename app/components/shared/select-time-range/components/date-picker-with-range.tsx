@@ -19,6 +19,7 @@ interface DatePickerWithRangeProps {
   className?: string
   date: DateRange | undefined,
   rangeValue?: string
+  isAbsolute: boolean
   onDateChange: (value: DateRange | undefined) => void
 }
 
@@ -26,6 +27,7 @@ function DatePickerWithRange ({
   className,
   date,
   rangeValue,
+  isAbsolute,
   onDateChange
 }: DatePickerWithRangeProps) {
   const [activeCalendar, setActiveCalendar] = useState<'from' | 'to'>('from')
@@ -47,7 +49,7 @@ function DatePickerWithRange ({
                 onClick={() => setActiveCalendar('from')}
               >
                 <CalendarIcon className='mr-2 h-4 w-4' />
-                {rangeValue
+                {isAbsolute
                   ? <span>Now-{rangeValue}</span>
                   : date?.from
                     ? (format(date.from, 'LLL dd, y'))
@@ -67,7 +69,7 @@ function DatePickerWithRange ({
                 onClick={() => setActiveCalendar('to')}
               >
                 <CalendarIcon className='mr-2 h-4 w-4' />
-                {rangeValue
+                {isAbsolute
                   ? <span>Now</span>
                   : date?.to
                     ? (format(date.to, 'LLL dd, y'))
@@ -91,4 +93,4 @@ function DatePickerWithRange ({
   )
 }
 
-export default DatePickerWithRange
+export default React.memo(DatePickerWithRange)

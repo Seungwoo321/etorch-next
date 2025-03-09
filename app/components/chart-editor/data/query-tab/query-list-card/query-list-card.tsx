@@ -9,21 +9,21 @@ import {
 } from '@/store/editor'
 import { memo, useCallback, useMemo } from 'react'
 import { TQueryOption } from '@/lib/definitions'
-
 import { fetchIndicatorValues } from '@/lib/data'
 import DataQuerySelect from './data-query-select'
 import RemoveQueryButton from './remove-query-button'
+import RefreshQueryButton from './refresh-query-button'
 
-type QueryOptionCardProps = TQueryOption
+type QueryListCardProps = TQueryOption
 
-function QueryOptionCard ({ id, origin, code }: QueryOptionCardProps) {
+function QueryListCard ({ id, origin, code }: QueryListCardProps) {
   const option = { id, origin, code }
   const frequency = useGlobalOptionStore.use.frequency()
   const timeRagne = useGlobalOptionStore.use.timeRagne()
   const indicators = useDataQueryStore.use.indicators()
   const updateItem = useDataQueryStore.use.updateItem()
+
   const addRawData = useDataQueryStore.use.addRawData()
-  const codeByIndicators = indicators[option.origin] ?? []
   const removeRawData = useDataQueryStore.use.removeRawData()
   const fetchChartData = async (code: string) => {
     const dataValues = await fetchIndicatorValues({
@@ -51,6 +51,12 @@ function QueryOptionCard ({ id, origin, code }: QueryOptionCardProps) {
       }
     ]
   ), [])
+
+  const codeByIndicators = indicators.filter(item => item.origin === option.origin)
+  const indicatorsOptions = codeByIndicators.map(item => ({ name: item.name, value: item.code }))
+  const items = useDataQueryStore.use.items()
+  const selectedCodes = items.filter(item => item.code !== '').map(item => item.code)
+
   const handleOriginChange = useCallback((origin: string) => {
     updateItem(option.id, {
       origin
@@ -63,13 +69,11 @@ function QueryOptionCard ({ id, origin, code }: QueryOptionCardProps) {
     const selectedItem = codeByIndicators.find(indicator => indicator.code === code)
     updateItem(option.id, {
       code,
-      unit: selectedItem?.unit_en
+      unit: selectedItem?.unit
     })
     fetchChartData(code)
   }, [option])
-  const indicatorsOptions = codeByIndicators.map(item => ({ name: item.name, value: item.code }))
-  const items = useDataQueryStore.use.items()
-  const selectedCodes = items.filter(item => item.code !== '').map(item => item.code)
+
   return (
     <Card>
       <CardContent className='pt-6'>
@@ -84,13 +88,18 @@ function QueryOptionCard ({ id, origin, code }: QueryOptionCardProps) {
                 onQueryOptionChange={handleOriginChange}
               />
               <DataQuerySelect
-                className='grid col-span-8 gap-3'
+                className='grid col-span-7 gap-3'
                 labelName='Indicator'
                 value={option.code}
                 formatter={(option => `${option.name} (${option.value})`)}
                 options={indicatorsOptions}
                 onQueryOptionChange={handleCodeChange}
                 selectedValues={selectedCodes}
+              />
+              <RefreshQueryButton
+                className='flex col-span-1 items-end'
+                code={option.code}
+                onQueryDataRefresh={fetchChartData}
               />
               <RemoveQueryButton
                 className='flex col-span-1 items-end'
@@ -105,4 +114,4 @@ function QueryOptionCard ({ id, origin, code }: QueryOptionCardProps) {
   )
 }
 
-export default memo(QueryOptionCard)
+export default memo(QueryListCard)

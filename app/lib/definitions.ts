@@ -1,17 +1,24 @@
-export interface IIndicator {
-  origin: string
-  name: string
-  description: string
-  unit_ko: string
-  unit_en: string
-  code: string
-  hasMonth: boolean
-  hasQuarter: boolean
-  hasYear: boolean
-  hasDay: boolean
-}
+export type TFrequency = 'A' | 'Q' | 'M' | 'D'
 
 export type TDataValue = Record<string, string | number>
+
+export interface IIndicator {
+  code: string
+  name: string
+  description: string
+  origin: string
+  unit: string
+  frequencies: TFrequency[]
+}
+
+export interface IIndicatorWithTimeSeries extends IIndicator {
+  timeSeries: TDataValue[]
+}
+
+export type TResponseIndicatorData = {
+  success: boolean
+  data: IIndicatorWithTimeSeries
+}
 
 export interface IIndicatorValuesParamss {
   origin: string
@@ -19,9 +26,7 @@ export interface IIndicatorValuesParamss {
   frequency: string
 }
 
-export type TIndicatorValues = {
-  [key: string]: IIndicator[]
-}
+export type TIndicatorValues = IIndicator[]
 
 export interface IDataPanelItem {
   id: number
@@ -32,8 +37,6 @@ export interface IDataPanelItem {
   data: TDataValue[]
 }
 
-export type TFrequency = 'A' | 'Q' | 'M' | 'D'
-
 export type TQueryOption = {
   id: string
   origin: string
@@ -42,8 +45,7 @@ export type TQueryOption = {
 }
 
 export type TDataSourceOption = {
-  name: string
-  value: string
+  [key: string]: string
 }
 
 export type TTimeRange = {

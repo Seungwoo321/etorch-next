@@ -1,6 +1,6 @@
 import { memo } from 'react'
 import { useDataQueryStore } from '@/store/editor'
-import QueryListCard from './query-list-card'
+import QueryListCard from './query-list-card/query-list-card'
 import QueryOptionAddButton from './query-list-card/add-query-button'
 
 function DataQueryTab () {

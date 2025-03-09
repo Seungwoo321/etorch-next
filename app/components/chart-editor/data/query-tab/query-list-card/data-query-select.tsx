@@ -12,7 +12,9 @@ type QueryOptionSelectProps = {
   className: string
   labelName: string
   value: string
-  options: { name: string, value: string }[]
+  options: {
+    [key: string]: string
+  }[]
   formatter?: (value: TDataSourceOption) => string
   onQueryOptionChange: (value: string) => void
   disabled?: boolean

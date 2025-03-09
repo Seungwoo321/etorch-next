@@ -1,11 +1,11 @@
-import { TIndicatorValues, TDataValue, TQueryOption } from '@/lib/definitions'
+import { TIndicatorValues, TDataValue, TQueryOption, IIndicatorWithTimeSeries } from '@/lib/definitions'
 import { create } from 'zustand'
 import createSelectors from '@/lib/createSelectors'
 
 type DataQueryStoreState = {
   items: TQueryOption[]
   indicators: TIndicatorValues
-  rawData: TDataValue[][]
+  rawData: IIndicatorWithTimeSeries[]
   mergedData: TDataValue[];
 }
 
@@ -14,7 +14,7 @@ type DataQueryStoreAction = {
   updateItem: (id: string, newItem: Partial<TQueryOption>) => void;
   removeItem: (id: string) => void;
   setIndicators: (Indicators: TIndicatorValues) => void;
-  addRawData: (dataValues: TDataValue[]) => void;
+  addRawData: (IndicatorData: IIndicatorWithTimeSeries) => void;
   removeRawData: (code: string) => void
 }
 
@@ -22,11 +22,7 @@ export type DataQueryStore = DataQueryStoreState & DataQueryStoreAction
 
 const initialDataQueryState: DataQueryStoreState = {
   items: [],
-  indicators: {
-    kosis: [],
-    ecos: [],
-    oecd: []
-  },
+  indicators: [],
   rawData: [],
   mergedData: []
 }
@@ -51,7 +47,7 @@ const useDataQueryStoreBase = create<DataQueryStore>()((set) => ({
   })),
   addRawData: (data) => {
     set((state) => ({
-      rawData: [...state.rawData.filter((item) => item[0].code !== data[0].code), data]
+      rawData: [...state.rawData.filter((item) => item.code !== data.code), data]
     }))
     set((state) => ({
       mergedData: mergeDatasets(state.rawData)
@@ -59,21 +55,21 @@ const useDataQueryStoreBase = create<DataQueryStore>()((set) => ({
   },
   removeRawData: (code) => {
     set((state) => ({
-      rawData: [...state.rawData.filter(item => item[0].code !== code)]
+      rawData: [...state.rawData.filter(item => item.code !== code)]
     }))
     set((state) => ({
       mergedData: mergeDatasets(state.rawData)
     }))
   }
 }))
-function mergeDatasets (rawData: TDataValue[][]): TDataValue[] {
+function mergeDatasets (rawData: IIndicatorWithTimeSeries[]): TDataValue[] {
   const merged: Record<string, TDataValue> = {}
   rawData.forEach((dataValues) => {
-    dataValues.forEach(({ date, code, value }) => {
+    dataValues.timeSeries.forEach(({ date, value }) => {
       merged[date] = {
         ...merged[date],
         date,
-        ...(value !== undefined ? { [code]: value } : {})
+        ...(value !== undefined ? { [dataValues.code]: value } : {})
       }
     })
   })

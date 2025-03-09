@@ -18,6 +18,7 @@ function QueryOptionRemoveButton ({ className, cardId, code }: QueryOptionRemove
   return (
     <div className={className}>
       <Button
+        className='w-full'
         onClick={handleRemoveItem}
       >
         <Trash2

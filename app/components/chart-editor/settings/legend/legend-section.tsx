@@ -1,11 +1,8 @@
-import {
-  ToggleGroup,
-  ToggleGroupItem
-} from '@/components/ui/toggle-group'
 import { useLegendOptionStore } from '@/store/editor'
 import type { HorizontalAlignmentType, VerticalAlignmentType } from 'recharts/types/component/DefaultLegendContent'
 import type { LayoutType } from 'recharts/types/util/types'
-import { FormField, SwitchFormField, ToggleGroupFormField } from '../form-field'
+import { SwitchFormField, ToggleGroupFormField } from '../form-field'
+import { useMemo } from 'react'
 
 function LegendSection () {
   const legendVisibility = useLegendOptionStore.use.legendVisibility()
@@ -16,7 +13,7 @@ function LegendSection () {
   const updateLegendLayout = useLegendOptionStore.use.updateLegendLayout()
   const updateLegendAlign = useLegendOptionStore.use.updateLegendAlign()
   const updateLegendVerticalAlign = useLegendOptionStore.use.updateLegendVerticalAlign()
-  const legendLayoutOptions = [
+  const legendLayoutOptions = useMemo(() => ([
     {
       label: 'vertical',
       value: 'vertical'
@@ -25,7 +22,39 @@ function LegendSection () {
       label: 'horizontal',
       value: 'horizontal'
     }
-  ]
+  ]), [])
+  const legendAlignOptions = useMemo(() => (
+    [
+      {
+        label: 'Left',
+        value: 'left'
+      },
+      {
+        label: 'Center',
+        value: 'center'
+      },
+      {
+        label: 'Right',
+        value: 'right'
+      }
+    ]
+  ), [])
+  const legendVerticalAlignOptions = useMemo(() => (
+    [
+      {
+        label: 'Top',
+        value: 'top'
+      },
+      {
+        label: 'Middle',
+        value: 'middle'
+      },
+      {
+        label: 'Bottom',
+        value: 'bottom'
+      }
+    ]
+  ), [])
   return (
     <div className='space-y-2 pl-2 pr-1'>
       <SwitchFormField
@@ -41,74 +70,20 @@ function LegendSection () {
         options={legendLayoutOptions}
         handleValueChange={(value) => updateLegendLayout(value as LayoutType)}
       />
-      {/* <div className='grid w-full max-w-sm items-center gap-1.5'>
-        <span>Layout</span>
-        <ToggleGroup
-          className='justify-start'
-          type='single'
-          variant='outline'
-          value={legendLayout}
-          onValueChange={(value: LayoutType) => {
-            if (value.length > 0) updateLegendLayout(value)
-            if (value === 'horizontal' && legendVerticalAlign === 'middle') updateLegendAlign('center')
-          }}
-        >
-          <ToggleGroupItem value='vertical' aria-label='Toggle vertical'>
-            Vertical
-          </ToggleGroupItem>
-          <ToggleGroupItem value='horizontal' aria-label='Toggle horizontal'>
-            Horizontal
-          </ToggleGroupItem>
-        </ToggleGroup>
-      </div> */}
-      <div className='grid w-full max-w-sm items-center gap-1.5'>
-        <span>Horizontal Align</span>
-        <ToggleGroup
-          className='justify-start'
-          type='single'
-          variant='outline'
-          value={legendAlign}
-          onValueChange={(value: HorizontalAlignmentType) => {
-            if (value === 'left' || value === 'center' || value === 'right') {
-              updateLegendAlign(value)
-            }
-          }}
-        >
-          {(legendLayout !== 'horizontal' || legendVerticalAlign !== 'middle')
-            ? <ToggleGroupItem value='left' aria-label='Toggle left'>Left</ToggleGroupItem>
-            : null}
-          <ToggleGroupItem value='center' aria-label='Toggle center'>
-            Center
-          </ToggleGroupItem>
-          {(legendLayout !== 'horizontal' || legendVerticalAlign !== 'middle')
-            ? <ToggleGroupItem value='right' aria-label='Toggle right'>Right</ToggleGroupItem>
-            : null}
-        </ToggleGroup>
-      </div>
-      <FormField label='Vertical Alig'>
-        <ToggleGroup
-          className='justify-start'
-          type='single'
-          variant='outline'
-          value={legendVerticalAlign}
-          onValueChange={(value: VerticalAlignmentType) => {
-            if (value === 'top' || value === 'bottom' || value === 'middle') {
-              updateLegendVerticalAlign(value)
-            }
-            if (legendLayout === 'horizontal' && value === 'middle') updateLegendAlign('center')
-          }}
-        >
-          <ToggleGroupItem value='top' aria-label='Toggle top'>
-            Top
-          </ToggleGroupItem>
-          <ToggleGroupItem value='middle' aria-label='Toggle middle'>
-            Middle
-          </ToggleGroupItem>
-          <ToggleGroupItem value='bottom' aria-label='Toggle bottom'>
-            Bottom
-          </ToggleGroupItem>
-        </ToggleGroup>
-      </FormField>
+      <ToggleGroupFormField
+        label='Horizontal Align'
+        id='horizontal-align'
+        value={legendAlign}
+        options={legendAlignOptions}
+        handleValueChange={(value) => updateLegendAlign(value as HorizontalAlignmentType)}
+      />
+      <ToggleGroupFormField
+        label='Vertical Align'
+        id='vertical-align'
+        value={legendVerticalAlign}
+        options={legendVerticalAlignOptions}
+        handleValueChange={(value) => updateLegendVerticalAlign(value as VerticalAlignmentType)}
+      />
     </div>
   )
 }
