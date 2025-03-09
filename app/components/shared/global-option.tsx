@@ -61,7 +61,7 @@ function GlobalOption () {
           <SelectValue />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem value='Y'> 연간 </SelectItem>
+          <SelectItem value='A'> 연간 </SelectItem>
           <SelectItem value='Q'> 분기 </SelectItem>
           <SelectItem value='M'> 월간 </SelectItem>
           <SelectItem value='D'> 일간 </SelectItem>
